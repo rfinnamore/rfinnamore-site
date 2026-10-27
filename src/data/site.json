@@ -1,0 +1,13 @@
+{
+  "name": "Ryan Finnamore",
+  "headline": "Hello, I'm Ryan.",
+  "intro": "Political science student at McMaster, living in downtown Hamilton. This is my corner of the internet: things I'm thinking about, photos I've taken, and whatever else I feel like putting here.",
+  "portrait": "https://picsum.photos/seed/rf-portrait/400/400",
+  "wtfPost": "/writing/wtf-is-this-website",
+  "links": {
+    "instagram": "https://instagram.com/",
+    "linkedin": "https://www.linkedin.com/",
+    "spotify": "https://open.spotify.com/",
+    "email": "mailto:hello@rfinnamore.ca"
+  }
+}

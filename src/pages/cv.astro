@@ -1,0 +1,14 @@
+---
+import Base from '../layouts/Base.astro';
+import { getEntry, render } from 'astro:content';
+const page = await getEntry('pages', 'cv');
+const ready = !!page && page.data.ready && (page.body ?? '').trim().length > 0;
+const Content = ready ? (await render(page!)).Content : null;
+---
+<Base title="CV" current="cv" description="Ryan Finnamore's CV.">
+  <h1 class="page-h">CV</h1>
+  {Content
+    ? <article class="glass prose"><Content /></article>
+    : <article class="glass prose"><p>Still putting this together. Check back soon.</p></article>}
+</Base>
+<style>.prose{max-width:760px;margin-top:22px}</style>

@@ -1,0 +1,107 @@
+# Pages CMS config — https://pagescms.org (log in with GitHub, pick this repo)
+media:
+  input: public/uploads
+  output: /uploads
+  rename: safe
+
+content:
+  - name: media
+    label: Media Journal
+    type: collection
+    path: src/content/media
+    filename: "{year}-{month}-{day}-{title}.md"
+    view: { primary: title, fields: [title, type, rating, date], sort: [date], default: { sort: date, order: desc } }
+    fields:
+      - { name: type, label: Type, type: select, required: true, options: { values: [ { value: album, label: Album }, { value: movie, label: Movie }, { value: book, label: Book } ] } }
+      - { name: title, label: Title, type: string, required: true }
+      - { name: creator, label: "Artist / Director / Author", type: string }
+      - { name: year, label: Year released, type: number }
+      - { name: rating, label: "Rating (0–5, halves ok, blank = no rating)", type: number, options: { min: 0, max: 5, step: 0.5 } }
+      - { name: status, label: Status, type: select, default: finished, options: { values: [ { value: finished, label: Finished }, { value: in-progress, label: In progress } ] } }
+      - { name: cover, label: Cover image, type: image }
+      - { name: date, label: Date logged, type: date, required: true }
+      - { name: body, label: Review (optional), type: rich-text }
+
+  - name: notes
+    label: Notes
+    type: collection
+    path: src/content/notes
+    filename: "{year}-{month}-{day}-{hour}{minute}.md"
+    view: { primary: body, fields: [date], default: { sort: date, order: desc } }
+    fields:
+      - { name: date, label: Date, type: date, required: true }
+      - { name: draft, label: Hide (draft), type: boolean, default: false }
+      - { name: body, label: Note, type: rich-text }
+
+  - name: writing
+    label: Writing
+    type: collection
+    path: src/content/writing
+    filename: "{title}.md"
+    view: { primary: title, fields: [title, date, draft], default: { sort: date, order: desc } }
+    fields:
+      - { name: title, label: Title, type: string, required: true }
+      - { name: date, label: Date, type: date, required: true }
+      - { name: description, label: One-line summary, type: string }
+      - { name: tags, label: Tags, type: string, list: true }
+      - { name: draft, label: Draft (hidden from site), type: boolean, default: false }
+      - { name: body, label: Post, type: rich-text }
+
+  - name: photos
+    label: Photos
+    type: collection
+    path: src/content/photos
+    filename: "{year}-{month}-{day}-{caption}.md"
+    view: { primary: caption, fields: [caption, date], default: { sort: date, order: desc } }
+    fields:
+      - { name: image, label: Photo, type: image, required: true }
+      - { name: caption, label: Caption, type: string }
+      - { name: location, label: Location, type: string }
+      - { name: date, label: Date taken, type: date, required: true }
+
+  - name: about
+    label: About page
+    type: file
+    path: src/content/pages/about.md
+    fields:
+      - { name: title, label: Title, type: string }
+      - { name: body, label: Text, type: rich-text }
+
+  - name: cv
+    label: CV
+    type: file
+    path: src/content/pages/cv.md
+    fields:
+      - { name: title, label: Title, type: string }
+      - { name: ready, label: "Show it (off = 'soon')", type: boolean }
+      - { name: body, label: CV, type: rich-text }
+
+  - name: quotes
+    label: Quotes
+    type: file
+    path: src/data/quotes.json
+    format: json
+    list: true
+    fields:
+      - { name: text, label: Quote, type: text, required: true }
+      - { name: by, label: Who said it, type: string }
+
+  - name: site
+    label: Home page & links
+    type: file
+    path: src/data/site.json
+    format: json
+    fields:
+      - { name: name, label: Name, type: string }
+      - { name: headline, label: Headline, type: string }
+      - { name: intro, label: Intro paragraph, type: text }
+      - { name: portrait, label: Portrait, type: image }
+      - { name: wtfPost, label: "'wtf is this website' link", type: string }
+      - name: links
+        label: Elsewhere links
+        type: object
+        fields:
+          - { name: instagram, type: string }
+          - { name: linkedin, type: string }
+          - { name: spotify, type: string }
+          - { name: email, type: string, description: "mailto:you@example.com" }

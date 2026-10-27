@@ -1,0 +1,41 @@
+---
+import Base from '../../layouts/Base.astro';
+import Stars from '../../components/Stars.astro';
+import { render } from 'astro:content';
+import { getMedia, fmtDate, mediaLabel } from '../../lib/util';
+
+export async function getStaticPaths() {
+  const media = await getMedia();
+  return media.map((entry) => ({ params: { id: entry.id }, props: { entry } }));
+}
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+const verb = { album: 'Listened', movie: 'Watched', book: 'Read' }[d.type];
+---
+<Base title={d.title} current="media" description={`${d.title}${d.creator ? ` by ${d.creator}` : ''} — logged in Ryan's media journal.`}>
+  <article class="glass entry">
+    {d.cover && <img class:list={['cover', d.type === 'album' ? 'sq' : 'tall']} src={d.cover} alt={`Cover of ${d.title}`} />}
+    <div class="body">
+      <span class="kicker">{mediaLabel[d.type]} · {d.status === 'in-progress' ? 'in progress' : `${verb} ${fmtDate(d.date, true)}`}</span>
+      <h1>{d.title}</h1>
+      <p class="by">{[d.creator, d.year].filter(Boolean).join(' · ')}</p>
+      <Stars rating={d.rating} status={d.status} />
+      <div class="review"><Content /></div>
+    </div>
+  </article>
+  <p class="back"><a href="/media">← back to the journal</a></p>
+</Base>
+
+<style>
+  .entry{display:flex;gap:32px;padding:32px;margin-top:48px;align-items:flex-start}
+  .cover{width:220px;object-fit:cover;border-radius:16px;border:1px solid var(--edge);flex:none;box-shadow:0 20px 40px -16px rgba(0,0,0,.75)}
+  .cover.sq{height:220px}.cover.tall{height:330px}
+  h1{font-family:"Kanit",sans-serif;font-weight:400;font-size:34px;line-height:1.15;margin:6px 0 4px}
+  .by{font-family:"Radio Canada",sans-serif;color:var(--soft);margin:0 0 6px}
+  .review{margin-top:18px;font-size:17.5px;line-height:1.75}
+  .review :global(p){margin:0 0 1em}
+  .back{font-family:"Kanit",sans-serif;font-weight:300;color:var(--soft);margin:22px 6px 0}
+  .back a:hover{color:var(--ink)}
+  @media (max-width:640px){.entry{flex-direction:column;padding:22px}.cover{width:160px}.cover.sq{height:160px}.cover.tall{height:240px}}
+</style>

@@ -1,0 +1,25 @@
+---
+import Base from '../../layouts/Base.astro';
+import { render } from 'astro:content';
+import { getNotes, fmtDate } from '../../lib/util';
+
+export async function getStaticPaths() {
+  return (await getNotes()).map((entry) => ({ params: { id: entry.id }, props: { entry } }));
+}
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const plain = (entry.body ?? '').replace(/[#*_>`\[\]]/g, '').trim();
+---
+<Base title={`Note — ${fmtDate(entry.data.date, true)}`} current="notes" description={plain.slice(0, 150)}>
+  <article class="glass prose note">
+    <Content />
+    <p class="stamp"><time datetime={entry.data.date.toISOString()}>{fmtDate(entry.data.date, true)}</time></p>
+  </article>
+  <p class="back"><a href="/notes">← all notes</a></p>
+</Base>
+<style>
+  .note{margin-top:48px;max-width:680px}
+  .stamp{margin-top:1.2em}
+  .back{font-family:"Kanit",sans-serif;font-weight:300;color:var(--soft);margin:22px 6px 0}
+  .back a:hover{color:var(--ink)}
+</style>

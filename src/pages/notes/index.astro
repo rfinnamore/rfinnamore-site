@@ -1,0 +1,30 @@
+---
+import Base from '../../layouts/Base.astro';
+import { render } from 'astro:content';
+import { getNotes, fmtDate } from '../../lib/util';
+
+const notes = await getNotes();
+const rendered = await Promise.all(notes.map(async (n) => ({ n, Content: (await render(n)).Content })));
+---
+<Base title="Notes" current="notes" description="Short thoughts and half-ideas.">
+  <h1 class="page-h">Notes</h1>
+  <p class="page-sub">Short thoughts, half-ideas, and stuff I don't want to forget.</p>
+  <div class="stream">
+    {rendered.map(({ n, Content }) => (
+      <article class="glass note" id={n.id}>
+        <div class="text"><Content /></div>
+        <a class="stamp" href={`/notes/${n.id}`}><time datetime={n.data.date.toISOString()}>{fmtDate(n.data.date)}</time></a>
+      </article>
+    ))}
+  </div>
+</Base>
+
+<style>
+  .stream{display:grid;gap:14px;max-width:680px}
+  .note{padding:20px 24px 16px;border-radius:22px}
+  .text{font-size:17px;line-height:1.7}
+  .text :global(p){margin:0 0 .7em}
+  .text :global(a){border-bottom:1px solid rgba(255,255,255,.4)}
+  .text :global(img){border-radius:14px;border:1px solid var(--edge);margin:4px 0}
+  .stamp:hover time{color:var(--ink)}
+</style>

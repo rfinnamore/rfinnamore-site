@@ -1,0 +1,30 @@
+---
+import Base from '../../layouts/Base.astro';
+import { render } from 'astro:content';
+import { getWriting, fmtDate } from '../../lib/util';
+
+export async function getStaticPaths() {
+  return (await getWriting()).map((entry) => ({ params: { id: entry.id }, props: { entry } }));
+}
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+const d = entry.data;
+---
+<Base title={d.title} current="writing" description={d.description}>
+  <header class="head">
+    <span class="kicker"><time datetime={d.date.toISOString()}>{fmtDate(d.date, true)}</time></span>
+    <h1 class="page-h">{d.title}</h1>
+    {d.description && <p class="page-sub">{d.description}</p>}
+    {d.tags.length > 0 && <div class="tags">{d.tags.map((t) => <span class="chip">{t}</span>)}</div>}
+  </header>
+  <article class="glass prose"><Content /></article>
+  <p class="back"><a href="/writing">← all writing</a></p>
+</Base>
+<style>
+  .head{margin:48px 0 22px;max-width:760px}
+  .head .page-h{margin-top:6px}
+  .tags{display:flex;gap:6px;margin-top:-12px}
+  .prose{max-width:760px}
+  .back{font-family:"Kanit",sans-serif;font-weight:300;color:var(--soft);margin:22px 6px 0}
+  .back a:hover{color:var(--ink)}
+</style>

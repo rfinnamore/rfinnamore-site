@@ -1,0 +1,11 @@
+---
+import Base from '../layouts/Base.astro';
+import { getEntry, render } from 'astro:content';
+const page = await getEntry('pages', 'about');
+const Content = page ? (await render(page)).Content : null;
+---
+<Base title="About" description="About Ryan Finnamore.">
+  <h1 class="page-h">{page?.data.title ?? 'About'}</h1>
+  <article class="glass prose">{Content ? <Content /> : <p>Coming soon.</p>}</article>
+</Base>
+<style>.prose{max-width:760px;margin-top:22px}</style>

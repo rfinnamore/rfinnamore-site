@@ -1,0 +1,9 @@
+---
+import { stars } from '../lib/util';
+interface Props { rating?: number; status?: string }
+const { rating, status } = Astro.props;
+const s = stars(rating);
+---
+{status === 'in-progress'
+  ? <span class="stars"><em>in progress</em></span>
+  : s && <span class="stars" aria-label={`${rating} out of 5`}>{s.filled}<em>{s.empty}</em></span>}

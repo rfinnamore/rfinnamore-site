@@ -1,0 +1,31 @@
+---
+import Base from '../../layouts/Base.astro';
+import { getWriting, fmtDate } from '../../lib/util';
+const posts = await getWriting();
+---
+<Base title="Writing" current="writing" description="Longer pieces on politics, Hamilton, and whatever else.">
+  <h1 class="page-h">Writing</h1>
+  <p class="page-sub">Longer pieces on politics, Hamilton, and whatever I'm stuck on.</p>
+  <ul class="glass list">
+    {posts.map((p) => (
+      <li>
+        <a href={`/writing/${p.id}`}>
+          <span class="t">{p.data.title}</span>
+          {p.data.description && <span class="d">{p.data.description}</span>}
+        </a>
+        <span class="side">{p.data.tags.map((t) => <span class="chip">{t}</span>)}<time datetime={p.data.date.toISOString()}>{fmtDate(p.data.date)}</time></span>
+      </li>
+    ))}
+  </ul>
+</Base>
+<style>
+  .list{list-style:none;margin:0;padding:8px 28px}
+  li{display:flex;justify-content:space-between;align-items:baseline;gap:18px;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.08)}
+  li:last-child{border-bottom:0}
+  li a{display:block}
+  .t{display:block;font-size:18px;transition:color .2s}
+  li a:hover .t{color:#fff;text-decoration:underline;text-decoration-color:rgba(255,255,255,.4);text-underline-offset:4px}
+  .d{display:block;color:var(--soft);font-size:15px;margin-top:2px}
+  .side{display:flex;gap:8px;align-items:center;flex:none}
+  @media (max-width:600px){li{flex-direction:column;gap:6px}}
+</style>

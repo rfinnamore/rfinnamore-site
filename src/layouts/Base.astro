@@ -1,0 +1,51 @@
+---
+import '../styles/global.css';
+import site from '../data/site.json';
+import { getNotes, getWriting, getPhotos, getMedia } from '../lib/util';
+
+interface Props { title?: string; description?: string; nav?: boolean; current?: string }
+const { title, description = site.intro, nav = true, current } = Astro.props;
+const fullTitle = title ? `${title} — ${site.name}` : site.name;
+
+// only show nav links for sections that have something in them
+const [n, w, p, m] = await Promise.all([getNotes(), getWriting(), getPhotos(), getMedia()]);
+const links = [
+  { href: '/media', label: 'media', show: m.length > 0 },
+  { href: '/notes', label: 'notes', show: n.length > 0 },
+  { href: '/writing', label: 'writing', show: w.length > 0 },
+  { href: '/photos', label: 'photos', show: p.length > 0 },
+  { href: '/cv', label: 'cv', show: true },
+].filter((l) => l.show);
+---
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{fullTitle}</title>
+  <meta name="description" content={description} />
+  <meta property="og:title" content={fullTitle} />
+  <meta property="og:description" content={description} />
+  <meta name="theme-color" content="#1a0a36" />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Advent+Pro:wght@500;700&family=Kanit:wght@300;400&family=Martel:wght@300;400&family=PT+Serif:ital,wght@0,400;0,700;1,400&family=Radio+Canada:wght@400;500&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <a class="skip" href="#content">Skip to content</a>
+  <div class="sky" aria-hidden="true"></div>
+  <div class:list={['wrap', { sub: nav }]}>
+    {nav && (
+      <header class="glass top">
+        <a class="home" href="/">Ryan.</a>
+        <nav aria-label="Sections">
+          {links.map((l) => <a href={l.href} class:list={[{ on: current === l.label }]}>{l.label}</a>)}
+        </nav>
+      </header>
+    )}
+    <main id="content"><slot /></main>
+    <footer class="foot"><span>© {new Date().getFullYear()} {site.name}</span><span>rfinnamore.ca</span></footer>
+  </div>
+</body>
+</html>
