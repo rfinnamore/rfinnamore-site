@@ -6,6 +6,12 @@ import Stars from '../components/Stars.astro';
 import site from '../data/site.json';
 import { getCollection, getEntry } from 'astro:content';
 import { getNotes, getWriting, getPhotos, getMedia, fmtDate, plural, shelfLabel } from '../lib/util';
+import { getLived, getVisited } from '../lib/places';
+import linksData from '../data/links.json';
+import uses from '../data/uses.json';
+const lived = getLived();
+const visited = getVisited();
+const linkList = [...linksData].sort((a, b) => b.date.localeCompare(a.date));
 
 const [notes, writing, photos, media] = await Promise.all([getNotes(), getWriting(), getPhotos(), getMedia()]);
 const quotes = (await getCollection('quotes')).map((q) => q.data);
@@ -101,6 +107,38 @@ const elsewhere = [
       </a>
     )}
 
+    {lived.months.length > 0 && (
+      <a class="glass win wide" href="/places">
+        <div class="win-head"><div class="icon"><Icon name="places" /></div><h3>Places</h3><span class="count">{visited.all.length} places · {visited.countries.length} {visited.countries.length === 1 ? 'country' : 'countries'}</span></div>
+        <p class="desc">Where I've lived, where I've been, and how I got there. Each square is a month.</p>
+        <div class="mini-months" aria-hidden="true">
+          {lived.months.map((mo) => <span style={mo.colour ? `--c:${mo.colour}` : undefined}></span>)}
+        </div>
+        <div class="mini-key">{lived.totals.map((t) => <span><i style={`--c:${t.colour}`}></i>{t.city}</span>)}</div>
+        <span class="open">Open map →</span>
+      </a>
+    )}
+
+    {linkList.length > 0 && (
+      <a class="glass win" href="/links">
+        <div class="win-head"><div class="icon"><Icon name="links" /></div><h3>Links</h3><span class="count">{plural(linkList.length, 'link')}</span></div>
+        <p class="desc">Interesting things I found around the web.</p>
+        <ul class="peek">
+          {linkList.slice(0, 2).map((l) => <li><span class="clamp">{l.title}</span><time>{fmtDate(new Date(l.date + 'T00:00:00Z'))}</time></li>)}
+        </ul>
+        <span class="open">All links →</span>
+      </a>
+    )}
+
+    {uses.length > 0 && (
+      <a class="glass win" href="/uses">
+        <div class="win-head"><div class="icon"><Icon name="uses" /></div><h3>Uses</h3></div>
+        <p class="desc">The stuff I use every day: {uses.map((s) => s.section.toLowerCase()).join(', ')}.</p>
+        <div class="use-tags">{uses.flatMap((s) => s.items).slice(0, 5).map((i) => <span class="chip">{i.name}</span>)}</div>
+        <span class="open">See the list →</span>
+      </a>
+    )}
+
     <a class="glass win" href="/cv">
       <div class="win-head"><div class="icon"><Icon name="cv" /></div><h3>CV</h3>{!cvReady && <span class="chip soon">soon</span>}</div>
       <p class="desc">School, work, and the things I've been part of.</p>
@@ -171,6 +209,13 @@ const elsewhere = [
   blockquote{margin:4px 0 18px;padding-top:12px;border-top:1px solid rgba(255,255,255,.1)}
   blockquote p{margin:0;font-style:italic;color:var(--soft);font-size:16px}
   blockquote cite{display:block;margin-top:6px;font-style:normal;font-family:"Radio Canada",sans-serif;font-size:13px;color:var(--faint)}
+
+  .mini-months{display:grid;grid-template-columns:repeat(auto-fill,minmax(7px,1fr));gap:2px;margin-bottom:12px}
+  .mini-months span{aspect-ratio:1;border-radius:2px;background:var(--c,rgba(255,255,255,.08));opacity:.9}
+  .mini-key{display:flex;flex-wrap:wrap;gap:6px 16px;margin-bottom:18px;font-family:"Radio Canada",sans-serif;font-size:13px;color:var(--soft)}
+  .mini-key span{display:inline-flex;align-items:center;gap:7px}
+  .mini-key i{width:10px;height:10px;border-radius:3px;background:var(--c)}
+  .use-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:18px}
 
   .open{margin-top:auto;font-family:"Kanit",sans-serif;font-weight:300;font-size:14.5px;color:var(--soft);display:inline-flex;gap:6px;align-items:center}
   button.open{all:unset;cursor:pointer;margin-top:auto;font-family:"Kanit",sans-serif;font-weight:300;font-size:14.5px;color:var(--soft)}

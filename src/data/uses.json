@@ -1,0 +1,14 @@
+[
+  { "section": "Hardware", "items": [
+    { "name": "Laptop (placeholder)", "note": "what I write everything on" },
+    { "name": "Phone (placeholder)", "note": "most of the photos on here" },
+    { "name": "Headphones (placeholder)", "note": "for the HSR" }
+  ]},
+  { "section": "Software", "items": [
+    { "name": "Notion", "note": "where school lives", "url": "https://notion.so" },
+    { "name": "Spotify", "note": "always on", "url": "https://spotify.com" }
+  ]},
+  { "section": "Everyday carry", "items": [
+    { "name": "Placeholder", "note": "the thing I never leave without" }
+  ]}
+]

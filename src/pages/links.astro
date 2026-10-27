@@ -1,0 +1,45 @@
+---
+import Base from '../layouts/Base.astro';
+import links from '../data/links.json';
+import { fmtDate } from '../lib/util';
+const list = [...links].sort((a, b) => b.date.localeCompare(a.date));
+const host = (u: string) => { try { return new URL(u).hostname.replace(/^www\./, ''); } catch { return u; } };
+---
+<Base title="Links" current="links" description="Interesting links Ryan found around the web.">
+  <div class="head">
+    <div>
+      <h1 class="page-h">Links</h1>
+      <p class="page-sub">Interesting things I found around the web.</p>
+    </div>
+    <span class="count">{list.length} {list.length === 1 ? 'link' : 'links'}</span>
+  </div>
+  <ul class="glass list">
+    {list.map((l: { title: string; url: string; date: string; note?: string }) => (
+      <li>
+        <a href={l.url} target="_blank" rel="noopener">
+          <img src={`https://www.google.com/s2/favicons?domain=${host(l.url)}&sz=64`} alt="" width="20" height="20" loading="lazy" />
+          <span class="body">
+            <span class="t">{l.title} <span class="arr" aria-hidden="true">↗</span></span>
+            {l.note && <span class="n">{l.note}</span>}
+            <span class="m">{host(l.url)} · {fmtDate(new Date(l.date + 'T00:00:00Z'))}</span>
+          </span>
+        </a>
+      </li>
+    ))}
+  </ul>
+</Base>
+<style>
+  .head{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;max-width:760px}
+  .count{font-family:"Radio Canada",sans-serif;font-size:13.5px;color:var(--faint);margin-bottom:30px}
+  .list{list-style:none;margin:0;padding:6px 10px;max-width:760px}
+  li + li{border-top:1px solid rgba(255,255,255,.08)}
+  li a{display:flex;gap:14px;align-items:flex-start;padding:14px 16px;border-radius:16px;transition:background .2s}
+  li a:hover{background:rgba(255,255,255,.07)}
+  img{border-radius:5px;margin-top:3px;flex:none;background:rgba(255,255,255,.1)}
+  .body{display:flex;flex-direction:column;gap:2px}
+  .t{font-size:17px}
+  .arr{font-size:13px;color:var(--faint)}
+  li a:hover .arr{color:var(--ink)}
+  .n{color:var(--soft);font-size:15px}
+  .m{font-family:"Radio Canada",sans-serif;font-size:12.5px;color:var(--faint)}
+</style>

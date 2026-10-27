@@ -104,3 +104,74 @@ content:
           - { name: linkedin, type: string }
           - { name: spotify, type: string }
           - { name: email, type: string, description: "mailto:you@example.com" }
+
+  - name: links
+    label: Links
+    type: file
+    path: src/data/links.json
+    format: json
+    list: true
+    fields:
+      - { name: title, label: Title, type: string, required: true }
+      - { name: url, label: URL, type: string, required: true }
+      - { name: date, label: Date saved, type: date, required: true }
+      - { name: note, label: Note (optional), type: string }
+
+  - name: uses
+    label: Uses
+    type: file
+    path: src/data/uses.json
+    format: json
+    list: true
+    fields:
+      - { name: section, label: Section, type: string, required: true }
+      - name: items
+        label: Items
+        type: object
+        list: true
+        fields:
+          - { name: name, label: Name, type: string, required: true }
+          - { name: note, label: Note, type: string }
+          - { name: url, label: Link (optional), type: string }
+
+  - name: places
+    label: Places
+    type: file
+    path: src/data/places.json
+    format: json
+    fields:
+      - { name: born, label: "Grid starts (YYYY-MM)", type: string }
+      - name: lived
+        label: Places I've lived
+        type: object
+        list: true
+        fields:
+          - { name: city, type: string, required: true }
+          - { name: country, label: "Country code (ca, us, gb…)", type: string, required: true }
+          - { name: from, label: "From (YYYY-MM)", type: string, required: true }
+          - { name: to, label: "To (YYYY-MM, blank = still here)", type: string }
+          - { name: lat, label: Latitude, type: number }
+          - { name: lng, label: Longitude, type: number }
+      - name: visited
+        label: Places I've visited
+        type: object
+        list: true
+        fields:
+          - { name: city, type: string, required: true }
+          - { name: country, label: "Country code", type: string, required: true }
+          - { name: lat, label: Latitude, type: number }
+          - { name: lng, label: Longitude, type: number }
+      - name: flights
+        label: Flights
+        type: object
+        list: true
+        fields:
+          - { name: date, type: date }
+          - { name: airline, type: string }
+          - { name: minutes, label: Minutes in the air, type: number }
+          - name: from
+            type: object
+            fields: [ { name: code, type: string }, { name: city, type: string }, { name: lat, type: number }, { name: lng, type: number } ]
+          - name: to
+            type: object
+            fields: [ { name: code, type: string }, { name: city, type: string }, { name: lat, type: number }, { name: lng, type: number } ]

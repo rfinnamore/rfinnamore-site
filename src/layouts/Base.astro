@@ -1,7 +1,11 @@
 ---
 import '../styles/global.css';
 import site from '../data/site.json';
+import links from '../data/links.json';
+import uses from '../data/uses.json';
+import places from '../data/places.json';
 import Monogram from '../components/Monogram.astro';
+import Icon from '../components/Icon.astro';
 import { getNotes, getWriting, getPhotos, getMedia } from '../lib/util';
 
 interface Props { title?: string; description?: string; nav?: boolean; current?: string }
@@ -10,12 +14,15 @@ const fullTitle = title ? `${title} — ${site.name}` : site.name;
 
 // only show nav links for sections that have something in them
 const [n, w, p, m] = await Promise.all([getNotes(), getWriting(), getPhotos(), getMedia()]);
-const links = [
-  { href: '/media', label: 'media', show: m.length > 0 },
-  { href: '/notes', label: 'notes', show: n.length > 0 },
-  { href: '/writing', label: 'writing', show: w.length > 0 },
-  { href: '/photos', label: 'photos', show: p.length > 0 },
-  { href: '/cv', label: 'cv', show: true },
+const sections = [
+  { href: '/media', key: 'media', label: 'Media', show: m.length > 0 },
+  { href: '/notes', key: 'notes', label: 'Notes', show: n.length > 0 },
+  { href: '/writing', key: 'writing', label: 'Writing', show: w.length > 0 },
+  { href: '/photos', key: 'photos', label: 'Photos', show: p.length > 0 },
+  { href: '/places', key: 'places', label: 'Places', show: places.lived.length > 0 },
+  { href: '/links', key: 'links', label: 'Links', show: links.length > 0 },
+  { href: '/uses', key: 'uses', label: 'Uses', show: uses.length > 0 },
+  { href: '/cv', key: 'cv', label: 'CV', show: true },
 ].filter((l) => l.show);
 ---
 <!doctype html>
@@ -42,9 +49,13 @@ const links = [
   <div class:list={['wrap', { sub: nav }]}>
     {nav && (
       <header class="glass top">
-        <a class="home" href="/" aria-label="Home"><Monogram size={44} label="Ryan Finnamore — home" /></a>
-        <nav aria-label="Sections">
-          {links.map((l) => <a href={l.href} class:list={[{ on: current === l.label }]}>{l.label}</a>)}
+        <a class="home" href="/" aria-label="Home"><Monogram size={46} label="Ryan Finnamore — home" /></a>
+        <nav class="sections" aria-label="Sections">
+          {sections.map((l) => (
+            <a href={l.href} class:list={[{ on: current === l.key }]} aria-current={current === l.key ? 'page' : undefined}>
+              <Icon name={l.key} /><span>{l.label}</span>
+            </a>
+          ))}
         </nav>
       </header>
     )}

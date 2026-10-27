@@ -1,0 +1,17 @@
+{
+  "_note": "PLACEHOLDER DATA — Ryan to replace. lived: one entry per stretch of time (from/to = YYYY-MM, to: null = still there). visited: every place ever been. flights: optional; section hides when empty.",
+  "born": "2005-01",
+  "lived": [
+    { "city": "Hometown (placeholder)", "country": "ca", "from": "2005-01", "to": "2024-08", "lat": 43.65, "lng": -79.38 },
+    { "city": "Hamilton", "country": "ca", "from": "2024-09", "to": null, "lat": 43.2557, "lng": -79.8711 }
+  ],
+  "visited": [
+    { "city": "Toronto", "country": "ca", "lat": 43.6532, "lng": -79.3832 },
+    { "city": "Ottawa", "country": "ca", "lat": 45.4215, "lng": -75.6972 },
+    { "city": "Montréal", "country": "ca", "lat": 45.5019, "lng": -73.5674 },
+    { "city": "New York", "country": "us", "lat": 40.7128, "lng": -74.006 }
+  ],
+  "flights": [
+    { "date": "2025-07-02", "from": { "code": "YYZ", "city": "Toronto", "lat": 43.6777, "lng": -79.6248 }, "to": { "code": "YUL", "city": "Montréal", "lat": 45.4706, "lng": -73.7408 }, "airline": "Air Canada", "minutes": 75 }
+  ]
+}

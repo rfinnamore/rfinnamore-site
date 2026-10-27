@@ -1,0 +1,156 @@
+---
+import Base from '../layouts/Base.astro';
+import { getLived, getVisited, getFlights, flagUrl, countryName, places } from '../lib/places';
+
+const { months, totals } = getLived();
+const { all, countries } = getVisited();
+const fl = getFlights();
+const fmtYears = (y: number) => (y >= 1 ? `${y.toFixed(y < 10 ? 2 : 1).replace(/\.?0+$/, '')} years` : `${Math.round(y * 12)} months`);
+const hm = (m: number) => `${Math.floor(m / 60)}h ${String(m % 60).padStart(2, '0')}m`;
+const mapData = {
+  points: all.map((p) => ({ city: p.city, country: p.country, lat: p.lat, lng: p.lng, lived: p.lived })),
+  routes: (fl?.flights ?? []).map((f) => [[f.from.lat, f.from.lng], [f.to.lat, f.to.lng]]),
+};
+---
+<Base title="Places" current="places" description="Where Ryan has lived, been, and flown.">
+  <h1 class="page-h">Places</h1>
+  <p class="page-sub">Where I've lived, where I've been, and how I got there. In the grid, each square is a month of my life and each colour is a city. (Idea borrowed from <a href="https://singh.work/fromness/" class="u">Shivani's chart of fromness</a>.)</p>
+
+  <section class="glass panel">
+    <h2>Places I've lived</h2>
+    <div class="months" role="img" aria-label={`A grid of ${months.length} months, coloured by city`}>
+      {months.map((m) => <span style={m.colour ? `--c:${m.colour}` : undefined} title={`${m.label}${m.city ? ` · ${m.city}` : ''}`}></span>)}
+    </div>
+    <h3>Total time</h3>
+    <ul class="totals">
+      {totals.map((t) => <li><i style={`--c:${t.colour}`}></i><span>{t.city}</span><time>{fmtYears(t.years)}</time></li>)}
+    </ul>
+  </section>
+
+  <section class="glass panel">
+    <div class="row">
+      <h2>Visited places</h2>
+      <span class="meta">{all.length} places in {countries.length} {countries.length === 1 ? 'country' : 'countries'}</span>
+    </div>
+    <div class="chips" role="group" aria-label="Zoom map">
+      <button class="on" data-c="all">All</button>
+      {countries.map((c) => <button data-c={c.code}>{c.name}</button>)}
+    </div>
+    <div id="map" class="map"></div>
+    <div class="legend"><span><i class="dot lived"></i>lived in</span><span><i class="dot"></i>visited</span>{fl && <span><i class="line"></i>flight route</span>}</div>
+
+    <div class="countries">
+      {countries.map((c) => (
+        <div class="country">
+          <h4><img src={flagUrl(c.code)} alt="" width="22" height="16" loading="lazy" />{c.name}<span>{c.places.length}</span></h4>
+          <ul>{c.places.map((p) => <li class:list={[{ lived: p.lived }]}>{p.city}</li>)}</ul>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  {fl && (
+    <section class="glass panel">
+      <h2>Time in the air</h2>
+      <ul class="stats">
+        <li><b>{fl.flights.length}</b><span>flights</span></li>
+        <li><b>{Math.round(fl.totalKm).toLocaleString('en-CA')} km</b><span>{fl.aroundEarth.toFixed(2).replace(/0$/, '')}× around the earth</span></li>
+        {fl.minutes > 0 && <li><b>{hm(fl.minutes)}</b><span>in the air</span></li>}
+        <li><b>{fl.airports.length}</b><span>airports</span></li>
+        <li><b>{fl.routes}</b><span>routes</span></li>
+      </ul>
+      <div class="cols">
+        <div>
+          <h3>Airports</h3>
+          <ul class="totals">{fl.airports.map((a) => <li><b class="code">{a.code}</b><span>{a.city}</span><time>{a.count}</time></li>)}</ul>
+        </div>
+        <div>
+          <h3>Records</h3>
+          <ul class="totals">
+            <li><span>Longest hop</span><time>{fl.longest.from.city} → {fl.longest.to.city} · {Math.round(fl.longest.km).toLocaleString('en-CA')} km</time></li>
+          </ul>
+          {fl.airlines.length > 0 && <><h3>Airlines</h3><div class="tags">{fl.airlines.map((a) => <span class="chip">{a}</span>)}</div></>}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <script is:inline type="application/json" id="map-data" set:html={JSON.stringify(mapData)}></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+  <script is:inline src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script is:inline>
+    (function () {
+      const d = JSON.parse(document.getElementById('map-data').textContent);
+      const L = window.L; if (!L || !d.points.length) return;
+      const map = L.map('map', { scrollWheelZoom: false, attributionControl: true, zoomControl: true });
+      L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+        attribution: 'Tiles &copy; Esri', maxZoom: 16,
+      }).addTo(map);
+      L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}', { maxZoom: 16, opacity: .6 }).addTo(map);
+      d.routes.forEach((r) => L.polyline(r, { color: '#ff9ccf', weight: 1.5, opacity: .7, dashArray: '4 6' }).addTo(map));
+      const markers = d.points.map((p) => L.circleMarker([p.lat, p.lng], {
+        radius: p.lived ? 7 : 5, color: '#fff', weight: 1.5, fillColor: p.lived ? '#b79cff' : '#7fb2ff', fillOpacity: .95,
+      }).bindTooltip(p.city).addTo(map));
+      const fit = (pts) => map.fitBounds(L.latLngBounds(pts.map((p) => [p.lat, p.lng])).pad(0.35), { maxZoom: 9 });
+      fit(d.points);
+      document.querySelectorAll('.chips button').forEach((b) => b.addEventListener('click', () => {
+        document.querySelectorAll('.chips button').forEach((x) => x.classList.toggle('on', x === b));
+        fit(b.dataset.c === 'all' ? d.points : d.points.filter((p) => p.country.toLowerCase() === b.dataset.c));
+      }));
+    })();
+  </script>
+</Base>
+
+<style>
+  .u{border-bottom:1px solid rgba(255,255,255,.4)}
+  .panel{padding:26px 28px;margin-bottom:20px}
+  h2{font-family:"Kanit",sans-serif;font-weight:400;font-size:22px;margin:0 0 16px}
+  h3{font-family:"Kanit",sans-serif;font-weight:300;font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin:24px 0 10px}
+  .row{display:flex;justify-content:space-between;align-items:baseline;gap:12px;flex-wrap:wrap}
+  .meta{font-family:"Radio Canada",sans-serif;font-size:13.5px;color:var(--faint)}
+
+  .months{display:grid;grid-template-columns:repeat(auto-fill,minmax(11px,1fr));gap:3px}
+  .months span{aspect-ratio:1;border-radius:3px;background:var(--c,rgba(255,255,255,.08));opacity:.92;transition:transform .15s}
+  .months span:hover{transform:scale(1.6);opacity:1;position:relative;z-index:1}
+
+  .totals{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:8px}
+  .totals li{display:flex;align-items:center;gap:10px;padding:10px 14px;border-radius:14px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08);font-size:15px}
+  .totals li span{flex:1}
+  .totals i{width:12px;height:12px;border-radius:3px;background:var(--c);flex:none}
+  .code{font-family:"Kanit",sans-serif;font-weight:400;font-size:14px;letter-spacing:.06em}
+
+  .chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+  .chips button{all:unset;cursor:pointer;font-family:"Kanit",sans-serif;font-weight:300;font-size:13.5px;color:var(--soft);padding:5px 14px;border-radius:999px;border:1px solid var(--edge);transition:.2s}
+  .chips button:hover{color:var(--ink)}
+  .chips button.on{background:rgba(255,255,255,.18);color:var(--ink)}
+  .map{height:380px;border-radius:18px;border:1px solid var(--edge);overflow:hidden;background:#1a1530;isolation:isolate;position:relative;z-index:0}
+  .map :global(.leaflet-bar a){background:rgba(30,16,60,.85);color:#f4effa;border-color:rgba(255,255,255,.15)}
+  .map :global(.leaflet-bar){border:1px solid rgba(255,255,255,.2);box-shadow:none;border-radius:10px;overflow:hidden}
+  .map :global(.leaflet-tile-pane){filter:sepia(.5) hue-rotate(215deg) saturate(1.5) brightness(.9)}
+  .map :global(.leaflet-tooltip){font-family:"Radio Canada",sans-serif;background:rgba(30,16,60,.9);color:#f4effa;border:1px solid rgba(255,255,255,.2);box-shadow:none}
+  .map :global(.leaflet-control-attribution){background:rgba(20,10,40,.6);color:rgba(255,255,255,.55)}
+  .map :global(.leaflet-control-attribution a){color:rgba(255,255,255,.75)}
+  .legend{display:flex;gap:18px;margin:10px 4px 0;font-family:"Radio Canada",sans-serif;font-size:13px;color:var(--faint)}
+  .legend span{display:inline-flex;align-items:center;gap:7px}
+  .dot{width:10px;height:10px;border-radius:50%;background:#7fb2ff;border:1.5px solid #fff}
+  .dot.lived{background:#b79cff}
+  .line{width:18px;border-top:2px dashed #ff9ccf}
+
+  .countries{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px;margin-top:22px}
+  .country{padding:14px 16px;border-radius:16px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08)}
+  .country h4{display:flex;align-items:center;gap:9px;margin:0 0 8px;font-family:"Kanit",sans-serif;font-weight:400;font-size:16px}
+  .country h4 img{border-radius:3px;box-shadow:0 0 0 1px rgba(255,255,255,.2)}
+  .country h4 span{margin-left:auto;font-family:"Radio Canada",sans-serif;font-size:12.5px;color:var(--faint)}
+  .country ul{list-style:none;margin:0;padding:0;display:flex;flex-wrap:wrap;gap:4px 12px;font-size:15px;color:var(--soft)}
+  .country li.lived{color:var(--ink)}
+  .country li.lived::after{content:" ●";font-size:9px;color:#b79cff;vertical-align:2px}
+
+  .stats{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+  .stats li{padding:14px 16px;border-radius:16px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.08)}
+  .stats b{display:block;font-family:"Kanit",sans-serif;font-weight:400;font-size:24px}
+  .stats span{font-family:"Radio Canada",sans-serif;font-size:13px;color:var(--faint)}
+  .cols{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  .cols .totals{grid-template-columns:1fr}
+  .tags{display:flex;flex-wrap:wrap;gap:6px}
+  @media (max-width:640px){.panel{padding:20px}.cols{grid-template-columns:1fr}.map{height:300px}}
+</style>
