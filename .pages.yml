@@ -12,12 +12,12 @@ content:
     filename: "{year}-{month}-{day}-{title}.md"
     view: { primary: title, fields: [title, type, rating, date], sort: [date], default: { sort: date, order: desc } }
     fields:
-      - { name: type, label: Type, type: select, required: true, options: { values: [ { value: album, label: Album }, { value: movie, label: Movie }, { value: book, label: Book } ] } }
+      - { name: type, label: Type, type: select, required: true, options: { values: [ { name: album, label: Album }, { name: movie, label: Movie }, { name: book, label: Book } ] } }
       - { name: title, label: Title, type: string, required: true }
       - { name: creator, label: "Artist / Director / Author", type: string }
       - { name: year, label: Year released, type: number }
-      - { name: rating, label: "Rating (0–5, halves ok, blank = no rating)", type: number, options: { min: 0, max: 5, step: 0.5 } }
-      - { name: status, label: Status, type: select, default: finished, options: { values: [ { value: finished, label: Finished }, { value: in-progress, label: In progress } ] } }
+      - { name: rating, label: "Rating (0–5, halves ok, blank = no rating)", type: number, options: { min: 0, max: 5 } }
+      - { name: status, label: Status, type: select, default: finished, options: { values: [ { name: finished, label: Finished }, { name: in-progress, label: In progress } ] } }
       - { name: cover, label: Cover image, type: image }
       - { name: date, label: Date logged, type: date, required: true }
       - { name: body, label: Review (optional), type: rich-text }
@@ -27,7 +27,7 @@ content:
     type: collection
     path: src/content/notes
     filename: "{year}-{month}-{day}-{hour}{minute}.md"
-    view: { primary: body, fields: [date], default: { sort: date, order: desc } }
+    view: { primary: date, fields: [date], default: { sort: date, order: desc } }
     fields:
       - { name: date, label: Date, type: date, required: true }
       - { name: draft, label: Hide (draft), type: boolean, default: false }
