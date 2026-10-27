@@ -1,6 +1,7 @@
 ---
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
+import Monogram from '../components/Monogram.astro';
 import Stars from '../components/Stars.astro';
 import site from '../data/site.json';
 import { getCollection, getEntry } from 'astro:content';
@@ -26,7 +27,7 @@ const elsewhere = [
 ---
 <Base nav={false}>
   <section class="glass intro">
-    {site.portrait && <div class="portrait"><img src={site.portrait} alt="Ryan" width="112" height="112" /></div>}
+    <div class="mark"><Monogram size="100%" label="RF monogram" /></div>
     <div>
       <h1>{site.headline}</h1>
       <p>{site.intro} <a href="/about">More about me</a> &amp; <a href={site.wtfPost}>wtf is this website</a>.</p>
@@ -128,8 +129,8 @@ const elsewhere = [
 
 <style>
   .intro{display:flex;gap:28px;align-items:center;padding:32px}
-  .portrait{width:112px;height:112px;flex:none;border-radius:50%;overflow:hidden;border:1px solid var(--edge);box-shadow:0 0 0 6px rgba(255,255,255,.05)}
-  .portrait img{width:100%;height:100%;object-fit:cover;display:block}
+  .mark{width:128px;height:128px;flex:none;color:var(--ink);filter:drop-shadow(0 6px 18px rgba(10,2,30,.45)) drop-shadow(0 0 1px rgba(255,255,255,.4))}
+  .mark :global(svg){display:block;width:100%;height:100%}
   h1{font-family:"Advent Pro",sans-serif;font-weight:700;font-size:56px;line-height:1;margin:0 0 12px;letter-spacing:-.01em}
   .intro p{font-family:"Radio Canada",sans-serif;font-size:16.5px;line-height:1.7;margin:0;color:var(--soft)}
   .intro p a{color:var(--ink);border-bottom:1px solid rgba(255,255,255,.35);transition:border-color .2s}
@@ -177,6 +178,7 @@ const elsewhere = [
 
   @media (max-width:680px){
     .intro{flex-direction:column;align-items:flex-start;padding:24px}
+    .mark{width:96px;height:96px}
     h1{font-size:44px}
     .grid{grid-template-columns:1fr}.win.wide{grid-column:auto}
     .thumbs{grid-template-columns:repeat(2,1fr)}

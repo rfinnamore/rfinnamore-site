@@ -95,7 +95,6 @@ content:
       - { name: name, label: Name, type: string }
       - { name: headline, label: Headline, type: string }
       - { name: intro, label: Intro paragraph, type: text }
-      - { name: portrait, label: Portrait, type: image }
       - { name: wtfPost, label: "'wtf is this website' link", type: string }
       - name: links
         label: Elsewhere links

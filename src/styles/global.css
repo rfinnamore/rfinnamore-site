@@ -38,8 +38,9 @@ img{max-width:100%}
   background:linear-gradient(180deg,rgba(255,255,255,.14),transparent 28%)}
 
 /* sub-page nav */
-.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px 10px 20px;border-radius:999px;position:sticky;top:16px;z-index:5}
-.home{font-family:"Advent Pro",sans-serif;font-weight:700;font-size:24px;line-height:1}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:6px 12px 6px 14px;border-radius:999px;position:sticky;top:16px;z-index:5}
+.home{display:grid;place-items:center;color:var(--ink);line-height:0;padding:2px;border-radius:50%;transition:transform .25s,opacity .2s;opacity:.92}
+.home:hover{opacity:1;transform:rotate(-6deg) scale(1.05)}
 .top nav{display:flex;gap:2px;flex-wrap:wrap;justify-content:flex-end}
 .top nav a{font-family:"Kanit",sans-serif;font-weight:300;font-size:14.5px;color:var(--soft);padding:6px 14px;border-radius:999px;transition:.2s}
 .top nav a:hover{color:var(--ink);background:rgba(255,255,255,.1)}

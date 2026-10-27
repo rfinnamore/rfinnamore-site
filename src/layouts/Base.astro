@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import site from '../data/site.json';
+import Monogram from '../components/Monogram.astro';
 import { getNotes, getWriting, getPhotos, getMedia } from '../lib/util';
 
 interface Props { title?: string; description?: string; nav?: boolean; current?: string }
@@ -28,6 +29,9 @@ const links = [
   <meta property="og:description" content={description} />
   <meta name="theme-color" content="#1a0a36" />
   <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/brand/rf-favicon-32.png" sizes="32x32" type="image/png" />
+  <link rel="apple-touch-icon" href="/brand/rf-favicon-180.png" />
+  <meta property="og:image" content={new URL('/brand/rf-avatar-1024.png', Astro.site)} />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Advent+Pro:wght@500;700&family=Kanit:wght@300;400&family=Martel:wght@300;400&family=PT+Serif:ital,wght@0,400;0,700;1,400&family=Radio+Canada:wght@400;500&display=swap" rel="stylesheet" />
@@ -38,7 +42,7 @@ const links = [
   <div class:list={['wrap', { sub: nav }]}>
     {nav && (
       <header class="glass top">
-        <a class="home" href="/">Ryan.</a>
+        <a class="home" href="/" aria-label="Home"><Monogram size={44} label="Ryan Finnamore — home" /></a>
         <nav aria-label="Sections">
           {links.map((l) => <a href={l.href} class:list={[{ on: current === l.label }]}>{l.label}</a>)}
         </nav>
