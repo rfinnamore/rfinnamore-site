@@ -2,7 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import Stars from '../../components/Stars.astro';
 import { render } from 'astro:content';
-import { getMedia, fmtDate, mediaLabel } from '../../lib/util';
+import { getMedia, fmtDate, mediaLabel, catFor } from '../../lib/util';
 
 export async function getStaticPaths() {
   const media = await getMedia();
@@ -11,11 +11,12 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 const { Content } = await render(entry);
 const d = entry.data;
-const verb = { album: 'Listened', movie: 'Watched', book: 'Read' }[d.type];
+const verb = { album: 'Listened', movie: 'Watched', book: 'Read', podcast: 'Listened' }[d.type];
+const cat = catFor(d.type);
 ---
 <Base title={d.title} current="media" description={`${d.title}${d.creator ? ` by ${d.creator}` : ''} — logged in Ryan's media journal.`}>
   <article class="glass entry">
-    {d.cover && <img class:list={['cover', d.type === 'album' ? 'sq' : 'tall']} src={d.cover} alt={`Cover of ${d.title}`} />}
+    {d.cover && <img class:list={['cover', cat.square ? 'sq' : 'tall']} src={d.cover} alt={`Cover of ${d.title}`} />}
     <div class="body">
       <span class="kicker">{mediaLabel[d.type]} · {d.status === 'in-progress' ? 'in progress' : `${verb} ${fmtDate(d.date, true)}`}</span>
       <h1>{d.title}</h1>
@@ -24,7 +25,7 @@ const verb = { album: 'Listened', movie: 'Watched', book: 'Read' }[d.type];
       <div class="review"><Content /></div>
     </div>
   </article>
-  <p class="back"><a href="/media">← back to the journal</a></p>
+  <p class="back"><a href={`/media/${cat.slug}`}>← back to {cat.title}</a></p>
 </Base>
 
 <style>

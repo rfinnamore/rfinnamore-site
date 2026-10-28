@@ -36,8 +36,18 @@ export async function getMedia() {
   return (await getCollection('media')).sort(byDate);
 }
 
-export const mediaLabel = { album: 'album', movie: 'film', book: 'book' } as const;
-export const shelfLabel = { album: 'Listening', movie: 'Watched', book: 'Reading' } as const;
+export const mediaLabel = { album: 'album', movie: 'film', book: 'book', podcast: 'podcast' } as const;
+export const shelfLabel = { album: 'Music', movie: 'Movies', book: 'Books', podcast: 'Podcasts' } as const;
+
+/** Media Journal categories: one window on /media, one zoomed page each. */
+export const mediaCats = [
+  { type: 'album', slug: 'music', title: 'Music', blurb: 'Albums on repeat.', highlights: true, square: true },
+  { type: 'movie', slug: 'movies', title: 'Movies', blurb: 'Everything I watch.', highlights: false, square: false },
+  { type: 'book', slug: 'books', title: 'Books', blurb: 'What I read.', highlights: false, square: false },
+  { type: 'podcast', slug: 'podcasts', title: 'Podcasts', blurb: 'Shows and episodes worth the time.', highlights: true, square: true },
+] as const;
+export const catFor = (type: string) => mediaCats.find((c) => c.type === type)!;
+export const highlightsNote = "This section doesn't list everything, just the highlights";
 
 export function plural(n: number, word: string) {
   return `${n} ${word}${n === 1 ? '' : 's'}`;

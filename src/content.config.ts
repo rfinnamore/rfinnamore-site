@@ -34,7 +34,7 @@ const photos = defineCollection({
 const media = defineCollection({
   loader: glob({ pattern: '**/*.md', base: './src/content/media' }),
   schema: z.object({
-    type: z.enum(['album', 'movie', 'book']),
+    type: z.enum(['album', 'movie', 'book', 'podcast']),
     title: z.string(),
     creator: z.string().optional(),
     year: z.coerce.number().optional(),

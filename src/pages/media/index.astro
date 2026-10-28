@@ -1,83 +1,61 @@
 ---
 import Base from '../../layouts/Base.astro';
 import Stars from '../../components/Stars.astro';
-import { getMedia, fmtDate, mediaLabel } from '../../lib/util';
+import { getMedia, mediaCats, highlightsNote } from '../../lib/util';
 
 const media = await getMedia();
-const featured = media.find((m) => (m.body ?? '').trim().length > 0);
-const types = (['album', 'movie', 'book'] as const).filter((t) => media.some((m) => m.data.type === t));
-const tabName = { album: 'Albums', movie: 'Movies', book: 'Books' };
+const windows = mediaCats.map((c) => {
+  const items = media.filter((m) => m.data.type === c.type);
+  return { ...c, items, latest: items.slice(0, 3) };
+}).filter((w) => w.items.length > 0);
 ---
 <Base title="Media Journal" current="media" description="Everything Ryan listens to, watches, and reads.">
   <h1 class="page-h">Media Journal</h1>
   <p class="page-sub">Everything I listen to, watch, and read. Ratings are vibes, not science.</p>
 
-  {types.length > 1 && (
-    <div class="glass tabs" role="group" aria-label="Filter">
-      <button class="on" data-f="all" aria-pressed="true">All</button>
-      {types.map((t) => <button data-f={t} aria-pressed="false">{tabName[t]}</button>)}
-    </div>
-  )}
-
-  {featured && (
-    <a class="glass featured" href={`/media/${featured.id}`}>
-      {featured.data.cover && <img class:list={[featured.data.type === 'album' ? 'sq' : 'tall']} src={featured.data.cover} alt="" />}
-      <div>
-        <span class="kicker">Latest review · {fmtDate(featured.data.date)}</span>
-        <h2>{featured.data.title}</h2>
-        <span class="by">{[featured.data.creator, featured.data.year].filter(Boolean).join(' · ')}</span>&nbsp; <Stars rating={featured.data.rating} status={featured.data.status} />
-        <p class="excerpt">{(featured.body ?? '').replace(/[#*_>`]/g, '').trim()}</p>
-      </div>
-    </a>
-  )}
-
-  <div class="cards" id="cards">
-    {media.map((m) => (
-      <a class="card" href={`/media/${m.id}`} data-type={m.data.type}>
-        {m.data.cover
-          ? <img class="cover" src={m.data.cover} alt={`Cover of ${m.data.title}`} loading="lazy" />
-          : <div class="cover blank"><span>{m.data.title}</span></div>}
-        <b>{m.data.title}</b>
-        <i>{m.data.creator}</i>
-        <div class="meta"><Stars rating={m.data.rating} status={m.data.status} /><span class="chip">{mediaLabel[m.data.type]}</span></div>
+  <div class="windows">
+    {windows.map((w) => (
+      <a class="glass win" href={`/media/${w.slug}`} style={`view-transition-name:cat-${w.slug}`}>
+        <div class="win-head">
+          <h2 style={`view-transition-name:cat-${w.slug}-title`}>{w.title}</h2>
+          <span class="count">{w.items.length} logged</span>
+        </div>
+        {w.highlights && <p class="note">{highlightsNote}</p>}
+        <ul class:list={['latest', { square: w.square }]}>
+          {w.latest.map((m) => (
+            <li>
+              {m.data.cover
+                ? <img src={m.data.cover} alt="" loading="lazy" />
+                : <div class="blank">{m.data.title}</div>}
+              <b>{m.data.title}</b>
+              <i>{m.data.creator}</i>
+              <Stars rating={m.data.rating} status={m.data.status} />
+            </li>
+          ))}
+        </ul>
+        <span class="open">See all {w.title.toLowerCase()} →</span>
       </a>
     ))}
   </div>
 </Base>
 
-<script>
-  const btns = document.querySelectorAll<HTMLButtonElement>('.tabs button');
-  const cards = document.querySelectorAll<HTMLElement>('.card');
-  btns.forEach((b) => b.addEventListener('click', () => {
-    btns.forEach((x) => { x.classList.toggle('on', x === b); x.setAttribute('aria-pressed', String(x === b)); });
-    cards.forEach((c) => c.hidden = b.dataset.f !== 'all' && c.dataset.type !== b.dataset.f);
-  }));
-</script>
-
 <style>
-  .tabs{display:inline-flex;gap:4px;padding:5px;border-radius:999px;margin-bottom:24px;flex-wrap:wrap}
-  .tabs button{all:unset;cursor:pointer;font-family:"Kanit",sans-serif;font-weight:300;font-size:14.5px;color:var(--soft);padding:7px 18px;border-radius:999px;transition:.2s}
-  .tabs button:hover{color:var(--ink)}
-  .tabs button.on{background:rgba(255,255,255,.18);color:var(--ink);box-shadow:inset 0 1px 0 rgba(255,255,255,.3)}
-
-  .featured{display:flex;gap:24px;padding:24px;margin-bottom:28px;align-items:flex-start;transition:transform .25s}
-  .featured:hover{transform:translateY(-2px)}
-  .featured img{width:150px;object-fit:cover;border-radius:14px;border:1px solid var(--edge);flex:none;box-shadow:0 16px 30px -12px rgba(0,0,0,.7)}
-  .featured img.sq{height:150px}.featured img.tall{height:225px}
-  .featured h2{font-family:"Kanit",sans-serif;font-weight:400;font-size:24px;margin:4px 0 0}
-  .by{font-family:"Radio Canada",sans-serif;color:var(--soft);font-size:14.5px}
-  .excerpt{margin:10px 0 0;color:var(--soft);font-size:16px;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
-
-  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:22px 18px}
-  .card{transition:transform .25s}
-  .card:hover{transform:translateY(-4px)}
-  .card[hidden]{display:none}
-  .cover{width:100%;object-fit:cover;border-radius:12px;border:1px solid var(--edge);display:block;box-shadow:0 14px 28px -14px rgba(0,0,0,.75)}
-  .card[data-type=album] .cover{aspect-ratio:1}
-  .card[data-type=movie] .cover,.card[data-type=book] .cover{aspect-ratio:2/3}
-  .blank{display:grid;place-items:center;padding:12px;text-align:center;background:rgba(255,255,255,.08);font-family:"Kanit",sans-serif;font-weight:300;color:var(--soft)}
-  .card b{display:block;font-size:15px;margin-top:9px;line-height:1.3}
-  .card i{display:block;font-style:normal;font-family:"Radio Canada",sans-serif;font-size:13px;color:var(--soft)}
-  .meta{display:flex;justify-content:space-between;align-items:center;gap:6px;margin-top:3px}
-  @media (max-width:640px){.featured{flex-direction:column}.cards{grid-template-columns:repeat(2,1fr)}}
+  .windows{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .win{display:flex;flex-direction:column;padding:22px 24px 20px;transition:transform .25s,box-shadow .25s}
+  .win:hover{transform:translateY(-3px);box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 28px 60px -22px rgba(8,2,30,.75)}
+  .win-head{display:flex;align-items:baseline;justify-content:space-between;gap:10px}
+  h2{font-family:"Kanit",sans-serif;font-weight:400;font-size:24px;margin:0;width:fit-content}
+  .count{font-family:"Radio Canada",sans-serif;font-size:12.5px;color:var(--faint)}
+  .note{margin:8px 0 0;font-family:"Radio Canada",sans-serif;font-size:13px;color:var(--faint)}
+  .latest{list-style:none;margin:16px 0 18px;padding:0;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+  .latest li{display:flex;flex-direction:column;gap:1px;min-width:0}
+  .latest img,.blank{width:100%;aspect-ratio:2/3;object-fit:cover;border-radius:10px;border:1px solid var(--edge);display:block;margin-bottom:7px;box-shadow:0 10px 22px -12px rgba(0,0,0,.7)}
+  .square img,.square .blank{aspect-ratio:1}
+  .blank{display:grid;place-items:center;padding:8px;text-align:center;background:rgba(255,255,255,.08);font-family:"Kanit",sans-serif;font-weight:300;font-size:13px;color:var(--soft)}
+  .latest b{font-size:14px;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .latest i{font-style:normal;font-family:"Radio Canada",sans-serif;font-size:12.5px;color:var(--soft);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .latest :global(.stars){font-size:12px}
+  .open{margin-top:auto;font-family:"Kanit",sans-serif;font-weight:300;font-size:14.5px;color:var(--soft)}
+  .win:hover .open{color:var(--ink)}
+  @media (max-width:680px){.windows{grid-template-columns:1fr}}
 </style>

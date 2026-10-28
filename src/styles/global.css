@@ -91,3 +91,10 @@ footer.foot{margin-top:44px;display:flex;justify-content:space-between;font-fami
   .prose{padding:24px 22px;font-size:17px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* page-to-page zoom (Media Journal windows -> category pages) */
+@view-transition{navigation:auto}
+.top{view-transition-name:topbar}
+::view-transition-group(*){animation-duration:.5s;animation-timing-function:cubic-bezier(.22,.9,.24,1)}
+::view-transition-old(root),::view-transition-new(root){animation-duration:.3s}
+@media (prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}}
