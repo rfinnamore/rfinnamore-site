@@ -16,7 +16,7 @@ content:
       - { name: title, label: Title, type: string, required: true }
       - { name: creator, label: "Artist / Director / Author / Show", type: string }
       - { name: year, label: Year released, type: number }
-      - { name: rating, label: "Rating (0–5, halves ok, blank = no rating)", type: number, options: { min: 0, max: 5 } }
+      - { name: rating, label: "Rating (0–5, any decimal e.g. 3.25 or 4.5; blank = no rating)", type: number, options: { min: 0, max: 5 } }
       - { name: status, label: Status, type: select, default: finished, options: { values: [ { name: finished, label: Finished }, { name: in-progress, label: In progress } ] } }
       - { name: cover, label: Cover image, type: image }
       - { name: link, label: Link (YouTube / Spotify / etc., optional), type: string }

@@ -15,7 +15,6 @@ export function fmtDate(d: Date, long = false) {
 /** 4.5 -> { filled: "★★★★½", empty: "" } ; 4 -> { filled: "★★★★", empty: "★" } */
 export function stars(r?: number) {
   if (r === undefined || r === null) return null;
-  r = Math.round(r * 2) / 2; // Goodreads allows quarter stars; show nearest half
   const full = Math.floor(r);
   const half = r - full >= 0.5;
   const empty = 5 - full - (half ? 1 : 0);

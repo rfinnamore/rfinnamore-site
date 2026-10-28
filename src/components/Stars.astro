@@ -1,9 +1,17 @@
 ---
-import { stars } from '../lib/util';
+// Goodreads-style rating: exact value (quarters etc.), drawn as 5 stars filled to rating/5.
 interface Props { rating?: number; status?: string }
 const { rating, status } = Astro.props;
-const s = stars(rating);
+const has = typeof rating === 'number' && rating > 0;
+const r = has ? Math.max(0, Math.min(5, rating!)) : 0;
+// per-star fill so quarters land exactly on each glyph
+const fills = [0, 1, 2, 3, 4].map((i) => Math.round(Math.max(0, Math.min(1, r - i)) * 100));
+const label = has ? `${+rating!.toFixed(2)} out of 5` : '';
 ---
 {status === 'in-progress'
   ? <span class="stars"><em>in progress</em></span>
-  : s && <span class="stars" aria-label={`${rating} out of 5`}>{s.filled}<em>{s.empty}</em></span>}
+  : has && (
+    <span class="stars rated" role="img" aria-label={label} title={label}>
+      {fills.map((f) => <span aria-hidden="true" style={`--fill:${f}%`}>★</span>)}
+    </span>
+  )}
