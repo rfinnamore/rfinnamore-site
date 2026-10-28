@@ -21,7 +21,7 @@ export function stars(r?: number) {
   return { filled: '★'.repeat(full) + (half ? '½' : ''), empty: '★'.repeat(Math.max(0, empty)) };
 }
 
-const byDate = (a: any, b: any) => b.data.date.valueOf() - a.data.date.valueOf();
+const byDate = (a: any, b: any) => (b.data.date?.valueOf() ?? 0) - (a.data.date?.valueOf() ?? 0);
 
 export async function getNotes() {
   return (await getCollection('notes', (e) => !e.data.draft)).sort(byDate);

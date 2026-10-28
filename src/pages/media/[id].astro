@@ -18,10 +18,11 @@ const cat = catFor(d.type);
   <article class="glass entry">
     {d.cover && <img class:list={['cover', cat.square ? 'sq' : 'tall']} src={d.cover} alt={`Cover of ${d.title}`} />}
     <div class="body">
-      <span class="kicker">{mediaLabel[d.type]} · {d.status === 'in-progress' ? 'in progress' : `${verb} ${fmtDate(d.date, true)}`}</span>
+      <span class="kicker">{mediaLabel[d.type]} · {d.status === 'in-progress' ? 'in progress' : (d.date ? `${verb} ${fmtDate(d.date, true)}` : verb.toLowerCase())}</span>
       <h1>{d.title}</h1>
       <p class="by">{[d.creator, d.year].filter(Boolean).join(' · ')}</p>
       <Stars rating={d.rating} status={d.status} />
+      {d.link && <a class="listen" href={d.link} target="_blank" rel="noopener">{d.type === 'podcast' ? 'Listen / watch' : 'Open'} ↗</a>}
       <div class="review"><Content /></div>
     </div>
   </article>
@@ -36,6 +37,8 @@ const cat = catFor(d.type);
   .by{font-family:"Radio Canada",sans-serif;color:var(--soft);margin:0 0 6px}
   .review{margin-top:18px;font-size:17.5px;line-height:1.75}
   .review :global(p){margin:0 0 1em}
+  .listen{display:inline-block;margin-top:14px;padding:7px 16px;border-radius:999px;border:1px solid var(--edge);font-family:"Kanit",sans-serif;font-weight:300;font-size:14.5px;color:var(--soft);transition:.2s}
+  .listen:hover{color:var(--ink);background:rgba(255,255,255,.12)}
   .back{font-family:"Kanit",sans-serif;font-weight:300;color:var(--soft);margin:22px 6px 0}
   .back a:hover{color:var(--ink)}
   @media (max-width:640px){.entry{flex-direction:column;padding:22px}.cover{width:160px}.cover.sq{height:160px}.cover.tall{height:240px}}

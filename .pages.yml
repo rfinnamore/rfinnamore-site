@@ -19,7 +19,8 @@ content:
       - { name: rating, label: "Rating (0–5, halves ok, blank = no rating)", type: number, options: { min: 0, max: 5 } }
       - { name: status, label: Status, type: select, default: finished, options: { values: [ { name: finished, label: Finished }, { name: in-progress, label: In progress } ] } }
       - { name: cover, label: Cover image, type: image }
-      - { name: date, label: Date logged, type: date, required: true }
+      - { name: link, label: Link (YouTube / Spotify / etc., optional), type: string }
+      - { name: date, label: Date watched / listened / read (optional), type: date }
       - { name: body, label: Review (optional), type: rich-text }
 
   - name: notes

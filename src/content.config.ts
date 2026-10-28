@@ -41,7 +41,8 @@ const media = defineCollection({
     rating: z.coerce.number().min(0).max(5).optional(),
     status: z.enum(['finished', 'in-progress']).optional().default('finished'),
     cover: z.string().optional(),
-    date: z.coerce.date(),
+    link: z.string().url().optional(),
+    date: z.coerce.date().optional(),
   }),
 });
 
