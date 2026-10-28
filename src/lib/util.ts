@@ -15,6 +15,7 @@ export function fmtDate(d: Date, long = false) {
 /** 4.5 -> { filled: "★★★★½", empty: "" } ; 4 -> { filled: "★★★★", empty: "★" } */
 export function stars(r?: number) {
   if (r === undefined || r === null) return null;
+  r = Math.round(r * 2) / 2; // Goodreads allows quarter stars; show nearest half
   const full = Math.floor(r);
   const half = r - full >= 0.5;
   const empty = 5 - full - (half ? 1 : 0);
@@ -49,7 +50,7 @@ export const mediaCats = [
 /** Groups of windows on /media, in display order (each window's `group` points here). */
 export const mediaGroups = [
   { key: 'highlights', label: 'Not everything, just highlights' },
-  { key: 'everything', label: 'Everything since starting this website' },
+  { key: 'everything', label: 'Everything I can remember' },
 ] as const;
 export const catFor = (type: string) => mediaCats.find((c) => c.type === type)!;
 

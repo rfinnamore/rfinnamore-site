@@ -8,6 +8,14 @@ interface Props { type: 'album' | 'movie' | 'book' | 'podcast'; hidden?: boolean
 const { type, hidden = false } = Astro.props;
 const cat = catFor(type);
 const items = (await getMedia()).filter((m) => m.data.type === cat.type);
+// group by the year each entry was logged (newest first); undated imports go last under "Earlier"
+const years = new Map<string, typeof items>();
+for (const m of items) {
+  const y = m.data.date ? String(m.data.date.getUTCFullYear()) : 'Earlier';
+  if (!years.has(y)) years.set(y, []);
+  years.get(y)!.push(m);
+}
+const groups = [...years.entries()].sort(([a], [b]) => (a === 'Earlier' ? 1 : b === 'Earlier' ? -1 : Number(b) - Number(a)));
 ---
 <div class="mz-view" data-slug={cat.slug} data-title={cat.title} hidden={hidden}>
   <a class="glass back mz-back" href="/media"><span aria-hidden="true">←</span> Back to Media Journal</a>
@@ -19,18 +27,23 @@ const items = (await getMedia()).filter((m) => m.data.type === cat.type);
     {items.length === 0
       ? <p class="empty mz-fade">Nothing here yet.</p>
       : (
-        <div class:list={['cards', { square: cat.square }]}>
-          {items.map((m) => (
-            <a class="card mz-fade" href={`/media/${m.id}`}>
-              {m.data.cover
-                ? <img class="cover" src={m.data.cover} alt={`Cover of ${m.data.title}`} loading="lazy" />
-                : <div class="cover blank"><span>{m.data.title}</span></div>}
-              <b>{m.data.title}</b>
-              <i>{[m.data.creator, m.data.year].filter(Boolean).join(' · ')}</i>
-              <Stars rating={m.data.rating} status={m.data.status} />
-            </a>
-          ))}
-        </div>
+        groups.map(([year, list]) => (
+          <section class="year">
+            <h2 class="year-h mz-fade"><span>{year}</span><i>{list.length}</i></h2>
+            <div class:list={['cards', { square: cat.square }]}>
+              {list.map((m) => (
+                <a class="card mz-fade" href={`/media/${m.id}`}>
+                  {m.data.cover
+                    ? <img class="cover" src={m.data.cover} alt={`Cover of ${m.data.title}`} loading="lazy" />
+                    : <div class="cover blank"><span>{m.data.title}</span></div>}
+                  <b>{m.data.title}</b>
+                  <i>{[m.data.creator, m.data.year].filter(Boolean).join(' · ')}</i>
+                  <Stars rating={m.data.rating} status={m.data.status} />
+                </a>
+              ))}
+            </div>
+          </section>
+        ))
       )}
   </section>
 </div>
@@ -44,7 +57,11 @@ const items = (await getMedia()).filter((m) => m.data.type === cat.type);
   .head{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
   h1{font-family:"Kanit",sans-serif;font-weight:400;font-size:38px;line-height:1.1;margin:0}
   .count{font-family:"Radio Canada",sans-serif;font-size:13.5px;color:var(--faint)}
-  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:24px 18px;margin-top:26px}
+  .year{margin-top:30px}
+  .year-h{display:flex;align-items:center;gap:12px;margin:0 0 16px;font-family:"Kanit",sans-serif;font-weight:300;font-size:14px;letter-spacing:.14em;color:var(--soft)}
+  .year-h::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(255,255,255,.18),transparent)}
+  .year-h i{order:2;font-style:normal;font-family:"Radio Canada",sans-serif;font-size:12px;letter-spacing:0;color:var(--faint)}
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:24px 18px}
   .card{display:flex;flex-direction:column;gap:2px;transition:transform .25s}
   .card:hover{transform:translateY(-4px)}
   .cover{width:100%;aspect-ratio:2/3;object-fit:cover;border-radius:12px;border:1px solid var(--edge);display:block;margin-bottom:8px;box-shadow:0 14px 28px -14px rgba(0,0,0,.75)}
