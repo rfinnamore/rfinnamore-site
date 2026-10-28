@@ -1,0 +1,159 @@
+---
+// "App Store card" expand for the Media Journal (FLIP pattern, same timing as Motion's iOS App Store example:
+// 0.5s, cubic-bezier(.39,.14,.26,1)). Clicking a category window grows a glass shell from the window to the
+// exact spot the full category panel will occupy, while everything else fades out; then the real panel is
+// swapped in and its contents fade up. Back reverses it. URLs stay real (/media/music etc.) via pushState,
+// and those URLs still exist as static pages for direct visits / no-JS.
+import MediaPanel from './MediaPanel.astro';
+import { mediaCats } from '../lib/util';
+---
+<div id="mz-host">
+  {mediaCats.map((c) => <MediaPanel type={c.type} hidden />)}
+</div>
+
+<script>
+  const EASE = 'cubic-bezier(.39,.14,.26,1)';
+  const DUR = 500;
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const host = document.getElementById('mz-host')!;
+  const main = host.closest('main')!;
+  const baseTitle = document.title;
+  let open: { slug: string; win: HTMLElement; view: HTMLElement } | null = null;
+  let busy = false;
+
+  const others = () => [...main.children].filter((el) => el !== host) as HTMLElement[];
+  const docRect = (el: Element) => {
+    const r = el.getBoundingClientRect();
+    return { top: r.top + scrollY, left: r.left + scrollX, width: r.width, height: r.height };
+  };
+  const fade = (els: Element[], to: 0 | 1, ms: number, delay = 0) =>
+    Promise.all(els.map((el) => el.animate([{ opacity: to ? 0 : 1 }, { opacity: to }], { duration: ms, delay, easing: 'ease', fill: 'both' }).finished));
+
+  // A glass shell cloned from the window: it's what visibly grows/shrinks.
+  function makeShell(from: HTMLElement) {
+    const shell = from.cloneNode(true) as HTMLElement;
+    shell.removeAttribute('href');
+    shell.style.cssText = 'position:absolute;margin:0;z-index:20;pointer-events:none;transform:none;transition:none;box-sizing:border-box;overflow:hidden;view-transition-name:none';
+    document.body.appendChild(shell);
+    return shell;
+  }
+  const box = (r: ReturnType<typeof docRect>) => ({ top: r.top + 'px', left: r.left + 'px', width: r.width + 'px', height: r.height + 'px' });
+
+  async function expand(slug: string, win: HTMLElement, push = true) {
+    const view = host.querySelector<HTMLElement>(`.mz-view[data-slug="${slug}"]`);
+    if (!view || busy) return;
+    busy = true;
+    const panel = view.querySelector<HTMLElement>('.mz-panel')!;
+    const fadeIns = [...view.querySelectorAll<HTMLElement>('.mz-back, .mz-fade')];
+
+    // measure where the panel will sit: render the view invisibly at the top of <main>
+    main.style.position = 'relative';
+    view.hidden = false;
+    view.style.cssText = 'position:absolute;top:0;left:0;right:0;visibility:hidden';
+    const to = docRect(panel);
+    const from = docRect(win);
+
+    if (push) history.pushState({ mz: slug }, '', `/media/${slug}/`);
+    document.title = `${view.dataset.title} — Media Journal — Ryan Finnamore`;
+
+    if (reduce) {
+      others().forEach((el) => (el.style.display = 'none'));
+      view.style.cssText = '';
+      scrollTo(0, 0);
+      open = { slug, win, view }; busy = false; return;
+    }
+
+    const shell = makeShell(win);
+    Object.assign(shell.style, box(from));
+    win.style.visibility = 'hidden';
+    const targetScroll = Math.max(0, Math.min(scrollY, to.top - 120));
+
+    const shellContent = [...shell.children];
+    await Promise.all([
+      shell.animate([box(from), box(to)], { duration: DUR, easing: EASE, fill: 'forwards' }).finished,
+      fade(shellContent, 0, 160),
+      fade(others(), 0, 220),
+      new Promise<void>((r) => { scrollTo({ top: targetScroll, behavior: 'smooth' }); setTimeout(r, 0); }),
+    ]);
+
+    // swap: hide the grid, put the real panel in flow exactly under the shell
+    others().forEach((el) => { el.style.display = 'none'; el.getAnimations().forEach((a) => a.cancel()); });
+    win.style.visibility = '';
+    fadeIns.forEach((el) => (el.style.opacity = '0'));
+    view.style.cssText = '';
+    shell.remove();
+    fadeIns.forEach((el, i) => el.animate(
+      [{ opacity: 0, transform: 'translateY(8px)' }, { opacity: 1, transform: 'none' }],
+      { duration: 280, delay: Math.min(i, 12) * 25, easing: 'ease-out', fill: 'both' },
+    ).finished.then(() => { el.style.opacity = ''; el.getAnimations().forEach((a) => a.cancel()); }));
+
+    open = { slug, win, view };
+    busy = false;
+  }
+
+  async function collapse() {
+    if (!open || busy) return;
+    busy = true;
+    const { win, view } = open;
+    const panel = view.querySelector<HTMLElement>('.mz-panel')!;
+    const back = view.querySelector<HTMLElement>('.mz-back')!;
+    document.title = baseTitle;
+
+    if (reduce) {
+      view.hidden = true; others().forEach((el) => (el.style.display = ''));
+      open = null; busy = false; return;
+    }
+
+    const from = docRect(panel);
+    const fadeOuts = [...view.querySelectorAll<HTMLElement>('.mz-fade')];
+    await fade([...fadeOuts, back], 0, 140);
+
+    // lay the grid back out underneath (invisible) to find the window's spot
+    const shell = makeShell(win);
+    [...shell.children].forEach((c) => ((c as HTMLElement).style.opacity = '0'));
+    Object.assign(shell.style, box(from));
+    view.hidden = true;
+    [...fadeOuts, back].forEach((el) => el.getAnimations().forEach((a) => a.cancel()));
+    others().forEach((el) => { el.style.display = ''; el.style.opacity = '0'; });
+    win.style.visibility = 'hidden';
+    const to = docRect(win);
+
+    await Promise.all([
+      shell.animate([box(from), box(to)], { duration: DUR, easing: EASE, fill: 'forwards' }).finished,
+      fade([...shell.children], 1, 200, DUR - 200),
+      fade(others(), 1, 260, 140),
+    ]);
+    others().forEach((el) => { el.style.opacity = ''; el.getAnimations().forEach((a) => a.cancel()); });
+    win.style.visibility = '';
+    shell.remove();
+    open = null;
+    busy = false;
+  }
+
+  // windows: intercept clicks on /media/<slug>
+  document.querySelectorAll<HTMLAnchorElement>('a.win[href^="/media/"]').forEach((a) => {
+    const slug = a.getAttribute('href')!.replace(/^\/media\/|\/$/g, '');
+    if (!host.querySelector(`.mz-view[data-slug="${slug}"]`)) return;
+    a.addEventListener('click', (e) => {
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+      e.preventDefault();
+      expand(slug, a);
+    });
+  });
+
+  // back pills inside the expanded views
+  host.querySelectorAll<HTMLAnchorElement>('.mz-back').forEach((b) => b.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (history.state?.mz) history.back(); else { history.replaceState(null, '', '/media/'); collapse(); }
+  }));
+  addEventListener('keydown', (e) => { if (e.key === 'Escape' && open) history.state?.mz ? history.back() : collapse(); });
+
+  // browser back/forward
+  addEventListener('popstate', (e) => {
+    const slug = e.state?.mz;
+    if (slug) {
+      const win = document.querySelector<HTMLElement>(`a.win[href="/media/${slug}"], a.win[href="/media/${slug}/"]`);
+      if (win && !open) expand(slug, win, false);
+    } else if (open) collapse();
+  });
+</script>

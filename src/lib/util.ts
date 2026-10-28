@@ -41,13 +41,17 @@ export const shelfLabel = { album: 'Music', movie: 'Movies', book: 'Books', podc
 
 /** Media Journal categories: one window on /media, one zoomed page each. */
 export const mediaCats = [
-  { type: 'album', slug: 'music', title: 'Music', blurb: 'Albums on repeat.', highlights: true, square: true },
-  { type: 'movie', slug: 'movies', title: 'Movies', blurb: 'Everything I watch.', highlights: false, square: false },
-  { type: 'book', slug: 'books', title: 'Books', blurb: 'What I read.', highlights: false, square: false },
-  { type: 'podcast', slug: 'podcasts', title: 'Podcasts', blurb: 'Shows and episodes worth the time.', highlights: true, square: true },
+  { type: 'album', slug: 'music', title: 'Music', blurb: 'Albums on repeat.', group: 'highlights', square: true },
+  { type: 'movie', slug: 'movies', title: 'Movies', blurb: 'Everything I watch.', group: 'everything', square: false },
+  { type: 'book', slug: 'books', title: 'Books', blurb: 'What I read.', group: 'everything', square: false },
+  { type: 'podcast', slug: 'podcasts', title: 'Podcasts', blurb: 'Shows and episodes worth the time.', group: 'highlights', square: true },
+] as const;
+/** Groups of windows on /media, in display order (each window's `group` points here). */
+export const mediaGroups = [
+  { key: 'highlights', label: 'Not everything, just highlights' },
+  { key: 'everything', label: 'Everything since starting this website' },
 ] as const;
 export const catFor = (type: string) => mediaCats.find((c) => c.type === type)!;
-export const highlightsNote = "This section doesn't list everything, just the highlights";
 
 export function plural(n: number, word: string) {
   return `${n} ${word}${n === 1 ? '' : 's'}`;

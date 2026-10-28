@@ -91,20 +91,3 @@ footer.foot{margin-top:44px;display:flex;justify-content:space-between;font-fami
   .prose{padding:24px 22px;font-size:17px}
 }
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
-
-/* page-to-page zoom: the clicked Media Journal window grows into the category panel
-   while everything else fades. Background + nav bar stay put. */
-@view-transition{navigation:auto}
-.top{view-transition-name:topbar}
-.sky{view-transition-name:sky}
-::view-transition-group(sky),::view-transition-group(topbar){animation:none}
-::view-transition-old(sky),::view-transition-new(sky),::view-transition-old(topbar),::view-transition-new(topbar){animation:none}
-::view-transition-old(root){animation:vt-out .22s ease both}
-::view-transition-new(root){animation:vt-in .32s ease .2s both}
-::view-transition-group(cat-music),::view-transition-group(cat-movies),::view-transition-group(cat-books),::view-transition-group(cat-podcasts){animation-duration:.55s;animation-timing-function:cubic-bezier(.65,0,.35,1);overflow:clip;border-radius:26px}
-::view-transition-old(cat-music),::view-transition-old(cat-movies),::view-transition-old(cat-books),::view-transition-old(cat-podcasts),::view-transition-new(cat-music),::view-transition-new(cat-movies),::view-transition-new(cat-books),::view-transition-new(cat-podcasts){width:100%;height:100%;object-fit:none;object-position:top left}
-::view-transition-old(cat-music),::view-transition-old(cat-movies),::view-transition-old(cat-books),::view-transition-old(cat-podcasts){animation:vt-out .18s ease both}
-::view-transition-new(cat-music),::view-transition-new(cat-movies),::view-transition-new(cat-books),::view-transition-new(cat-podcasts){animation:vt-in .3s ease .25s both}
-@keyframes vt-out{to{opacity:0}}
-@keyframes vt-in{from{opacity:0}}
-@media (prefers-reduced-motion:reduce){::view-transition-group(*),::view-transition-old(*),::view-transition-new(*){animation:none!important}}

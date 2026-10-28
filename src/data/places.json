@@ -1,8 +1,8 @@
 {
   "_note": "PLACEHOLDER DATA — Ryan to replace. lived: one entry per stretch of time (from/to = YYYY-MM, to: null = still there). visited: every place ever been. flights: optional; section hides when empty.",
-  "born": "2005-01",
+  "born": "2004-03",
   "lived": [
-    { "city": "Hometown (placeholder)", "country": "ca", "from": "2005-01", "to": "2024-08", "lat": 43.65, "lng": -79.38 },
+    { "city": "Hometown (placeholder)", "country": "ca", "from": "2004-03", "to": "2024-08", "lat": 43.65, "lng": -79.38 },
     { "city": "Hamilton", "country": "ca", "from": "2024-09", "to": null, "lat": 43.2557, "lng": -79.8711 }
   ],
   "visited": [

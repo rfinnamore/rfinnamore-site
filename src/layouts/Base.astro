@@ -60,7 +60,18 @@ const sections = [
       </header>
     )}
     <main id="content"><slot /></main>
-    <footer class="foot"><span>© {new Date().getFullYear()} {site.name}</span><span>rfinnamore.ca</span></footer>
+    <footer class="foot">
+      <p class="foot-est"><span>© {new Date().getFullYear()} Ryan Finnamore — Est. March 2004</span><span class="dot" aria-hidden="true">·</span><span>rfinnamore.ca — Est. October 2026</span></p>
+      <p class="foot-motto" lang="grc" title="I know that I know nothing">ΕΝ ΟΙΔΑ ΟΤΙ ΟΥΔΕΝ ΟΙΔΑ</p>
+    </footer>
   </div>
 </body>
 </html>
+
+<style>
+  .foot{flex-wrap:wrap;align-items:baseline;gap:6px 24px}
+  .foot p{margin:0}
+  .foot-est{display:flex;flex-wrap:wrap;gap:2px 10px;line-height:1.6}
+  .foot-motto{letter-spacing:.16em;line-height:1.6}
+  @media (max-width:680px){.foot{flex-direction:column;align-items:center;text-align:center}.foot-est{justify-content:center}}
+</style>
