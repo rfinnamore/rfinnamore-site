@@ -13,7 +13,7 @@ const items = (await getMedia()).filter((m) => m.data.type === cat.type);
 
   <section class="glass panel" style={`view-transition-name:cat-${cat.slug}`}>
     <header class="head">
-      <h1 style={`view-transition-name:cat-${cat.slug}-title`}>{cat.title}</h1>
+      <h1>{cat.title}</h1>
       <span class="count">{items.length} logged</span>
     </header>
     {cat.highlights && <p class="note">{highlightsNote}</p>}

@@ -17,7 +17,7 @@ const windows = mediaCats.map((c) => {
     {windows.map((w) => (
       <a class="glass win" href={`/media/${w.slug}`} style={`view-transition-name:cat-${w.slug}`}>
         <div class="win-head">
-          <h2 style={`view-transition-name:cat-${w.slug}-title`}>{w.title}</h2>
+          <h2>{w.title}</h2>
           <span class="count">{w.items.length} logged</span>
         </div>
         {w.highlights && <p class="note">{highlightsNote}</p>}
