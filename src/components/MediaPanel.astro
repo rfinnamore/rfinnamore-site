@@ -11,11 +11,12 @@ const items = (await getMedia()).filter((m) => m.data.type === cat.type);
 // group by the year each entry was logged (newest first); undated imports go last under "Earlier"
 const years = new Map<string, typeof items>();
 for (const m of items) {
-  const y = m.data.date ? String(m.data.date.getUTCFullYear()) : 'Earlier';
+  const y = m.data.status === 'in-progress' ? 'In progress' : m.data.date ? String(m.data.date.getUTCFullYear()) : 'Earlier';
   if (!years.has(y)) years.set(y, []);
   years.get(y)!.push(m);
 }
-const groups = [...years.entries()].sort(([a], [b]) => (a === 'Earlier' ? 1 : b === 'Earlier' ? -1 : Number(b) - Number(a)));
+const rank = (k: string) => (k === 'In progress' ? -1e9 : k === 'Earlier' ? 1e9 : -Number(k));
+const groups = [...years.entries()].sort(([a], [b]) => rank(a) - rank(b));
 ---
 <div class="mz-view" data-slug={cat.slug} data-title={cat.title} hidden={hidden}>
   <a class="glass back mz-back" href="/media"><span aria-hidden="true">←</span> Back to Media Journal</a>

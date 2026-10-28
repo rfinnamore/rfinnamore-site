@@ -33,7 +33,9 @@ export async function getPhotos() {
   return (await getCollection('photos')).sort(byDate);
 }
 export async function getMedia() {
-  return (await getCollection('media')).sort(byDate);
+  // in-progress stuff goes to the front of the pile, then newest first
+  const prog = (e: any) => (e.data.status === 'in-progress' ? 0 : 1);
+  return (await getCollection('media')).sort((a, b) => prog(a) - prog(b) || byDate(a, b));
 }
 
 export const mediaLabel = { album: 'album', movie: 'film', book: 'book', podcast: 'podcast' } as const;
