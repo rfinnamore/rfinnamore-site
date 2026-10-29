@@ -1,14 +1,102 @@
 [
-  { "section": "Hardware", "items": [
-    { "name": "Laptop (placeholder)", "note": "what I write everything on" },
-    { "name": "Phone (placeholder)", "note": "most of the photos on here" },
-    { "name": "Headphones (placeholder)", "note": "for the HSR" }
-  ]},
-  { "section": "Software", "items": [
-    { "name": "Notion", "note": "where school lives", "url": "https://notion.so" },
-    { "name": "Spotify", "note": "always on", "url": "https://spotify.com" }
-  ]},
-  { "section": "Everyday carry", "items": [
-    { "name": "Placeholder", "note": "the thing I never leave without" }
-  ]}
+  {
+    "section": "Hardware",
+    "items": [
+      {
+        "name": "Mac Mini M4",
+        "note": "The greatest piece of machinery I've ever had the pleasure of using."
+      },
+      {
+        "name": "MacBook M1",
+        "note": "I only use this thing if I absolutely have to. "
+      },
+      {
+        "name": "iPad Pro M1 ",
+        "note": "Not necessary in the slightest but dope nonetheless. "
+      },
+      {
+        "name": "iPhone 16 Pro",
+        "note": "Yeah."
+      },
+      {
+        "name": "FitBit Air",
+        "note": "Just to make damn sure I slept like shit last night!"
+      },
+      {
+        "name": "AirPod Pros Gen 1",
+        "note": "How are these things still going?? Probably the best product I've ever owned."
+      },
+      {
+        "name": "Sony Cybershot DSC-W800",
+        "note": "Cool lil digi."
+      },
+      {
+        "name": "LG Ultrafine + Acer HA220Q",
+        "note": "So I can see all 17 tabs at once."
+      },
+      {
+        "name": "Bose Companion 2 Series III",
+        "note": "To hear out of."
+      },
+      {
+        "name": "Blue Yeti",
+        "note": "To speak into."
+      }
+    ]
+  },
+  {
+    "section": "Software (Links are to videos explaining how I use a particular thing or what it is)",
+    "items": [
+      {
+        "name": "Chrome",
+        "note": "Obv"
+      },
+      {
+        "name": "Hermes Agent AKA Lloyd",
+        "note": "AI Agent. Main Model: ClaudeSDK Sonnet 5.5 & Voice Model: Grok Voice 3",
+        "url": "https://www.youtube.com/watch?v=9GpWELm3_XI"
+      },
+      {
+        "name": "Superwhisper",
+        "note": "Voice dictation."
+      },
+      {
+        "name": "Obsidian",
+        "note": "Notes vault & frontend for Claude tutor.",
+        "url": "https://www.youtube.com/watch?v=kzcI5F4tGiU&t=4s"
+      },
+      {
+        "name": "Notability",
+        "note": "Sometimes for input notes. Always gets synthesized into Obsidian."
+      },
+      {
+        "name": "Notion",
+        "note": "Mostly a backend for Hermes at this point."
+      },
+      {
+        "name": "Zotero",
+        "note": "Citations database and generator. Plus it's a fantastic PDF reader."
+      }
+    ]
+  },
+  {
+    "section": "Other products I fw",
+    "items": [
+      {
+        "name": "Osprey Axis",
+        "note": "GOAT'd backpack",
+        "url": "https://www.osprey.com/ca/en/axis-24-axis26s22-550?size=O%2FS&color=Black-Shale+Grey"
+      },
+      {
+        "name": "PKG Trenton",
+        "note": "GOAT'd other kind of bag",
+        "url": "https://www.pkgshop.com/products/trenton?_pos=1&_psq=trenton&_psid=db8e6741d&_ss=e"
+      },
+      {
+        "name": "Cool lil pomodoro timer",
+        "note": "mhmmm yes... i quite like this cool lil pomodoro timer mhm ",
+        "url": "https://www.amazon.ca/dp/B0FHBQL6VW?ref=ppx_yo2ov_dt_b_fed_asin_title"
+      }
+    ]
+  }
 ]
