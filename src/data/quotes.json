@@ -1,5 +1,27 @@
 [
-  { "text": "Placeholder quote — add your own in the admin panel.", "by": "Someone" },
-  { "text": "Another placeholder. Hit the button to cycle.", "by": "Someone else" },
-  { "text": "A third one, so the button has something to do.", "by": "Anonymous" }
+  {
+    "text": "The soul becomes dyed with the colour of its thoughts.",
+    "by": "Marcus Aurelius, Meditations"
+  },
+  {
+    "text": "Arise for the work of humankind. Be humble. However grand you are today or may become tomorrow, you too will be forgotten. There are no places for us in the crypt of Westminster Abbey. Even if there were, with the centuries, our accomplishments would be forgotten and our names become puzzles. But our moral sentiments can live on as memes that multiply through values in the service of others. A worthy past sedimented into a better future.",
+    "by": "Mark Carney, Value(s)"
+  },
+  {
+    "text": "The past is to be respected and acknowledged, but not worshipped; it is our future in which we will find our greatness.",
+    "by": "Pierre Elliott Trudeau"
+  },
+  {
+    "text": "It would be simply suicidal to French Canadians to form a party by themselves.",
+    "by": "Wilfrid Laurier"
+  },
+  {
+    "text": "One good analogy is worth three hours discussion.",
+    "by": "Dudley Field Malone"
+  },
+  {
+    "text": "Counting or not counting gang violence?",
+    "by": "Charlie Kirk"
+  },
+  {}
 ]
