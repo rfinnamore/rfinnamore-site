@@ -26,5 +26,6 @@ const rendered = await Promise.all(notes.map(async (n) => ({ n, Content: (await 
   .text :global(p){margin:0 0 .7em}
   .text :global(a){border-bottom:1px solid rgba(255,255,255,.4)}
   .text :global(img){border-radius:14px;border:1px solid var(--edge);margin:4px 0}
+  .text :global(video){display:block;width:100%;max-width:520px;height:auto;border-radius:14px;border:1px solid var(--edge);margin:4px 0 10px;background:#000}
   .stamp:hover time{color:var(--ink)}
 </style>

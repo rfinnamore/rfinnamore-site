@@ -8,7 +8,7 @@ export async function getStaticPaths() {
 }
 const { entry } = Astro.props;
 const { Content } = await render(entry);
-const plain = (entry.body ?? '').replace(/[#*_>`\[\]]/g, '').trim();
+const plain = (entry.body ?? '').replace(/<[^>]*>/g, '').replace(/[#*_>`\[\]]/g, '').trim();
 ---
 <Base title={`Note — ${fmtDate(entry.data.date, true)}`} current="notes" description={plain.slice(0, 150)}>
   <article class="glass prose note">
@@ -20,6 +20,7 @@ const plain = (entry.body ?? '').replace(/[#*_>`\[\]]/g, '').trim();
 <style>
   .note{margin-top:48px;max-width:680px}
   .stamp{margin-top:1.2em}
+  .note :global(video){display:block;width:100%;max-width:520px;height:auto;border-radius:14px;border:1px solid var(--edge);margin:4px 0 10px;background:#000}
   .back{font-family:"Kanit",sans-serif;font-weight:300;color:var(--soft);margin:22px 6px 0}
   .back a:hover{color:var(--ink)}
 </style>
