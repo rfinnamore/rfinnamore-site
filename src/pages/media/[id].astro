@@ -18,7 +18,7 @@ const cat = catFor(d.type);
   <article class="glass entry">
     {d.cover && <img class:list={['cover', cat.square ? 'sq' : 'tall']} src={d.cover} alt={`Cover of ${d.title}`} />}
     <div class="body">
-      <span class="kicker">{mediaLabel[d.type]} · {d.status === 'in-progress' ? 'in progress' : (d.date ? `Logged ${fmtDate(d.date, true)}` : 'logged')}</span>
+      <span class="kicker">{mediaLabel[d.type]} · {d.status === 'in-progress' ? 'in progress' : d.status === 'paused' ? 'on pause' : (d.date ? `Logged ${fmtDate(d.date, true)}` : 'logged')}</span>
       <h1>{d.title}</h1>
       <p class="by">{[d.creator, d.year].filter(Boolean).join(' · ')}</p>
       <Stars rating={d.rating} status={d.status} />

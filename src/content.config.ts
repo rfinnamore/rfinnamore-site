@@ -39,7 +39,7 @@ const media = defineCollection({
     creator: z.string().optional(),
     year: z.coerce.number().optional(),
     rating: z.coerce.number().min(0).max(5).optional(),
-    status: z.enum(['finished', 'in-progress']).optional().default('finished'),
+    status: z.enum(['finished', 'in-progress', 'paused']).optional().default('finished'),
     cover: z.string().optional(),
     link: z.string().url().optional(),
     date: z.coerce.date().optional(),

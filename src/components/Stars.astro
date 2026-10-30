@@ -10,6 +10,8 @@ const label = has ? `${+rating!.toFixed(2)} out of 5` : '';
 ---
 {status === 'in-progress'
   ? <span class="stars"><em>in progress</em></span>
+  : status === 'paused'
+  ? <span class="stars"><em>on pause</em></span>
   : has && (
     <span class="stars rated" role="img" aria-label={label} title={label}>
       {fills.map((f) => <span aria-hidden="true" style={`--fill:${f}%`}>★</span>)}
