@@ -63,6 +63,7 @@ const sections = [
     <footer class="foot">
       <p class="foot-est"><span>© {new Date().getFullYear()}</span><span class="dot" aria-hidden="true">·</span><span>Ryan Finnamore — Est. March 2004</span><span class="dot" aria-hidden="true">·</span><span>rfinnamore.ca — Est. October 2026</span></p>
       <p class="foot-motto" tabindex="0" aria-label="ΕΝ ΟΙΔΑ ΟΤΙ ΟΥΔΕΝ ΟΙΔΑ — I know that I know nothing"><span class="gr" lang="grc" aria-hidden="true">ΕΝ ΟΙΔΑ ΟΤΙ ΟΥΔΕΝ ΟΙΔΑ</span><span class="en" lang="en" aria-hidden="true">I KNOW THAT I KNOW NOTHING</span></p>
+      <p class="foot-credit">Design inspired by <a href="https://naeemnur.com/" target="_blank" rel="noopener">naeemnur.com</a></p>
     </footer>
   </div>
 </body>
@@ -71,6 +72,9 @@ const sections = [
 <style>
   .foot{flex-wrap:wrap;align-items:baseline;gap:6px 24px}
   .foot p{margin:0}
+  .foot-credit{flex-basis:100%;font-size:.9em;opacity:.75}
+  .foot-credit a{border-bottom:1px solid rgba(255,255,255,.35)}
+  @media (max-width:680px){.foot-credit{order:3}}
   .foot-est{display:flex;flex-wrap:wrap;gap:2px 10px;line-height:1.6}
   .foot-motto{display:grid;justify-items:end;letter-spacing:.16em;line-height:1.6;cursor:default;outline:none}
   .foot-motto span{grid-area:1/1;white-space:nowrap;transition:opacity .35s ease,transform .35s ease,filter .35s ease}

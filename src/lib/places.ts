@@ -42,8 +42,8 @@ export function getLived() {
 }
 
 export function getVisited() {
-  const lived = places.lived.map((l) => ({ city: l.city, country: l.country, lat: l.lat, lng: l.lng, lived: true }));
-  const all = [...lived];
+  const lived = places.lived.map((l) => ({ city: l.city, country: l.country, region: (l as any).region ?? '', lat: l.lat, lng: l.lng, lived: true }));
+  const all = lived.filter((l, i) => lived.findIndex((x) => x.city === l.city) === i);
   for (const v of places.visited) if (!all.some((a) => a.city === v.city)) all.push({ ...v, lived: false });
   const byCountry = new Map<string, typeof all>();
   for (const p of all) {
@@ -52,41 +52,16 @@ export function getVisited() {
     byCountry.get(k)!.push(p);
   }
   const countries = [...byCountry.entries()]
-    .map(([code, list]) => ({ code, name: countryName(code), places: list.sort((a, b) => a.city.localeCompare(b.city)) }))
+    .map(([code, list]) => {
+      const regs = new Map<string, typeof all>();
+      for (const p of list) { const r = (p as any).region || 'Other'; if (!regs.has(r)) regs.set(r, []); regs.get(r)!.push(p); }
+      const regions = [...regs.entries()]
+        .map(([name, ps]) => ({ name, places: ps.sort((a, b) => a.city.localeCompare(b.city)) }))
+        .sort((a, b) => b.places.length - a.places.length || a.name.localeCompare(b.name));
+      return { code, name: countryName(code), places: list, regions };
+    })
     .sort((a, b) => b.places.length - a.places.length || a.name.localeCompare(b.name));
   return { all, countries };
-}
-
-const R = 6371;
-const rad = (d: number) => (d * Math.PI) / 180;
-export function km(a: { lat: number; lng: number }, b: { lat: number; lng: number }) {
-  const h = Math.sin(rad(b.lat - a.lat) / 2) ** 2 + Math.cos(rad(a.lat)) * Math.cos(rad(b.lat)) * Math.sin(rad(b.lng - a.lng) / 2) ** 2;
-  return 2 * R * Math.asin(Math.sqrt(h));
-}
-
-export function getFlights() {
-  const flights = (places.flights ?? []).map((f) => ({ ...f, km: km(f.from, f.to) }));
-  if (!flights.length) return null;
-  const totalKm = flights.reduce((s, f) => s + f.km, 0);
-  const minutes = flights.reduce((s, f) => s + (f.minutes ?? 0), 0);
-  const airports = new Map<string, { code: string; city: string; count: number }>();
-  for (const f of flights) for (const a of [f.from, f.to]) {
-    const cur = airports.get(a.code) ?? { code: a.code, city: a.city, count: 0 };
-    cur.count++; airports.set(a.code, cur);
-  }
-  const routeKey = (f: any) => [f.from.code, f.to.code].sort().join('–');
-  const routes = new Map<string, number>();
-  for (const f of flights) routes.set(routeKey(f), (routes.get(routeKey(f)) ?? 0) + 1);
-  const longest = [...flights].sort((a, b) => b.km - a.km)[0];
-  const airlines = [...new Set(flights.map((f) => f.airline).filter(Boolean))];
-  return {
-    flights, totalKm, minutes,
-    aroundEarth: totalKm / 40075,
-    airports: [...airports.values()].sort((a, b) => b.count - a.count),
-    routes: routes.size,
-    countries: new Set(flights.flatMap((f) => [f.from, f.to]).map((a: any) => a.country).filter(Boolean)).size,
-    longest, airlines,
-  };
 }
 
 export const flagUrl = (code: string) => `https://flagcdn.com/${code.toLowerCase()}.svg`;
