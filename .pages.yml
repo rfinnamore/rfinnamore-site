@@ -149,6 +149,7 @@ content:
         fields:
           - { name: city, type: string, required: true }
           - { name: country, label: "Country code (ca, us, gb…)", type: string, required: true }
+          - { name: region, label: "Province / state", type: string }
           - { name: from, label: "From (YYYY-MM)", type: string, required: true }
           - { name: to, label: "To (YYYY-MM, blank = still here)", type: string }
           - { name: lat, label: Latitude, type: number }
@@ -160,19 +161,6 @@ content:
         fields:
           - { name: city, type: string, required: true }
           - { name: country, label: "Country code", type: string, required: true }
+          - { name: region, label: "Province / state (groups the dropdowns)", type: string, required: true }
           - { name: lat, label: Latitude, type: number }
           - { name: lng, label: Longitude, type: number }
-      - name: flights
-        label: Flights
-        type: object
-        list: true
-        fields:
-          - { name: date, type: date }
-          - { name: airline, type: string }
-          - { name: minutes, label: Minutes in the air, type: number }
-          - name: from
-            type: object
-            fields: [ { name: code, type: string }, { name: city, type: string }, { name: lat, type: number }, { name: lng, type: number } ]
-          - name: to
-            type: object
-            fields: [ { name: code, type: string }, { name: city, type: string }, { name: lat, type: number }, { name: lng, type: number } ]

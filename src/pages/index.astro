@@ -23,7 +23,7 @@ const shelves = (['album', 'movie', 'book', 'podcast'] as const)
   .map((t) => ({ type: t, item: media.find((m) => m.data.type === t) }))
   .filter((s) => s.item);
 
-const noteText = (body = '') => body.replace(/[#*_>`\[\]]/g, '').replace(/\(([^)]*)\)/g, '').trim();
+const noteText = (body = '') => { const t = body.replace(/<[^>]*>/g, '').replace(/[#*_>`\[\]]/g, '').replace(/\(([^)]*)\)/g, '').trim(); return t || (/<video/.test(body) ? '▶ Video' : ''); };
 const elsewhere = [
   { key: 'instagram', label: 'Instagram' },
   { key: 'linkedin', label: 'LinkedIn' },

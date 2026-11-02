@@ -1,432 +1,502 @@
 {
-  "born": "2004-03",
-  "lived": [
-    {
-      "city": "Hamilton",
-      "country": "ca",
-      "from": "2004-03",
-      "to": "2016-08",
-      "lat": 43.2557,
-      "lng": -79.8711
-    },
-    {
-      "city": "Brantford",
-      "country": "ca",
-      "from": "2016-08",
-      "to": "2026-09",
-      "lat": 43.1394,
-      "lng": -80.2644
-    },
-    {
-      "city": "Hamilton",
-      "country": "ca",
-      "from": "2026-09",
-      "lat": 43.2557,
-      "lng": -79.8711
-    }
-  ],
-  "visited": [
-    {
-      "city": "Toronto",
-      "country": "ca",
-      "lat": 43.6532,
-      "lng": -79.3832
-    },
-    {
-      "city": "Mississauga",
-      "country": "ca",
-      "lat": 43.589,
-      "lng": -79.6441
-    },
-    {
-      "city": "Brampton",
-      "country": "ca",
-      "lat": 43.7315,
-      "lng": -79.7624
-    },
-    {
-      "city": "Oakville",
-      "country": "ca",
-      "lat": 43.4675,
-      "lng": -79.6877
-    },
-    {
-      "city": "Burlington",
-      "country": "ca",
-      "lat": 43.3255,
-      "lng": -79.799
-    },
-    {
-      "city": "Milton",
-      "country": "ca",
-      "lat": 43.5183,
-      "lng": -79.8774
-    },
-    {
-      "city": "Georgetown",
-      "country": "ca",
-      "lat": 43.65,
-      "lng": -79.9167
-    },
-    {
-      "city": "Orangeville",
-      "country": "ca",
-      "lat": 43.92,
-      "lng": -80.0943
-    },
-    {
-      "city": "Grimsby",
-      "country": "ca",
-      "lat": 43.2,
-      "lng": -79.56
-    },
-    {
-      "city": "Niagara Falls",
-      "country": "ca",
-      "lat": 43.0896,
-      "lng": -79.0849
-    },
-    {
-      "city": "St. Catharines",
-      "country": "ca",
-      "lat": 43.1594,
-      "lng": -79.2469
-    },
-    {
-      "city": "Welland",
-      "country": "ca",
-      "lat": 42.9921,
-      "lng": -79.2482
-    },
-    {
-      "city": "Niagara-on-the-Lake",
-      "country": "ca",
-      "lat": 43.255,
-      "lng": -79.0717
-    },
-    {
-      "city": "Fort Erie",
-      "country": "ca",
-      "lat": 42.9049,
-      "lng": -78.9322
-    },
-    {
-      "city": "Port Colborne",
-      "country": "ca",
-      "lat": 42.8867,
-      "lng": -79.2506
-    },
-    {
-      "city": "Thorold",
-      "country": "ca",
-      "lat": 43.1167,
-      "lng": -79.2
-    },
-    {
-      "city": "Cambridge",
-      "country": "ca",
-      "lat": 43.3616,
-      "lng": -80.3144
-    },
-    {
-      "city": "Kitchener",
-      "country": "ca",
-      "lat": 43.4516,
-      "lng": -80.4925
-    },
-    {
-      "city": "Waterloo",
-      "country": "ca",
-      "lat": 43.4643,
-      "lng": -80.5204
-    },
-    {
-      "city": "Guelph",
-      "country": "ca",
-      "lat": 43.5448,
-      "lng": -80.2482
-    },
-    {
-      "city": "Elora",
-      "country": "ca",
-      "lat": 43.683,
-      "lng": -80.43
-    },
-    {
-      "city": "Fergus",
-      "country": "ca",
-      "lat": 43.7,
-      "lng": -80.37
-    },
-    {
-      "city": "Paris",
-      "country": "ca",
-      "lat": 43.1944,
-      "lng": -80.3844
-    },
-    {
-      "city": "Woodstock",
-      "country": "ca",
-      "lat": 43.1315,
-      "lng": -80.7467
-    },
-    {
-      "city": "Simcoe",
-      "country": "ca",
-      "lat": 42.8369,
-      "lng": -80.3039
-    },
-    {
-      "city": "Port Dover",
-      "country": "ca",
-      "lat": 42.7867,
-      "lng": -80.2015
-    },
-    {
-      "city": "Tillsonburg",
-      "country": "ca",
-      "lat": 42.859,
-      "lng": -80.728
-    },
-    {
-      "city": "London",
-      "country": "ca",
-      "lat": 42.9849,
-      "lng": -81.2453
-    },
-    {
-      "city": "St. Thomas",
-      "country": "ca",
-      "lat": 42.7778,
-      "lng": -81.183
-    },
-    {
-      "city": "Windsor",
-      "country": "ca",
-      "lat": 42.3149,
-      "lng": -83.0364
-    },
-    {
-      "city": "Chatham",
-      "country": "ca",
-      "lat": 42.4048,
-      "lng": -82.191
-    },
-    {
-      "city": "Grand Bend",
-      "country": "ca",
-      "lat": 43.3114,
-      "lng": -81.7544
-    },
-    {
-      "city": "Barrie",
-      "country": "ca",
-      "lat": 44.3894,
-      "lng": -79.6903
-    },
-    {
-      "city": "Orillia",
-      "country": "ca",
-      "lat": 44.6082,
-      "lng": -79.4199
-    },
-    {
-      "city": "Newmarket",
-      "country": "ca",
-      "lat": 44.0592,
-      "lng": -79.4613
-    },
-    {
-      "city": "Richmond Hill",
-      "country": "ca",
-      "lat": 43.8828,
-      "lng": -79.4403
-    },
-    {
-      "city": "Markham",
-      "country": "ca",
-      "lat": 43.8561,
-      "lng": -79.337
-    },
-    {
-      "city": "Vaughan",
-      "country": "ca",
-      "lat": 43.8361,
-      "lng": -79.4983
-    },
-    {
-      "city": "Pickering",
-      "country": "ca",
-      "lat": 43.8384,
-      "lng": -79.0868
-    },
-    {
-      "city": "Ajax",
-      "country": "ca",
-      "lat": 43.8509,
-      "lng": -79.0204
-    },
-    {
-      "city": "Whitby",
-      "country": "ca",
-      "lat": 43.8975,
-      "lng": -78.9429
-    },
-    {
-      "city": "Oshawa",
-      "country": "ca",
-      "lat": 43.8971,
-      "lng": -78.8658
-    },
-    {
-      "city": "Bowmanville",
-      "country": "ca",
-      "lat": 43.9128,
-      "lng": -78.6877
-    },
-    {
-      "city": "Port Hope",
-      "country": "ca",
-      "lat": 43.9511,
-      "lng": -78.2927
-    },
-    {
-      "city": "Cobourg",
-      "country": "ca",
-      "lat": 43.9593,
-      "lng": -78.1677
-    },
-    {
-      "city": "Peterborough",
-      "country": "ca",
-      "lat": 44.3091,
-      "lng": -78.3197
-    },
-    {
-      "city": "Belleville",
-      "country": "ca",
-      "lat": 44.1628,
-      "lng": -77.3832
-    },
-    {
-      "city": "Trenton",
-      "country": "ca",
-      "lat": 44.1,
-      "lng": -77.5833
-    },
-    {
-      "city": "Kingston",
-      "country": "ca",
-      "lat": 44.2312,
-      "lng": -76.486
-    },
-    {
-      "city": "Brockville",
-      "country": "ca",
-      "lat": 44.5895,
-      "lng": -75.6843
-    },
-    {
-      "city": "Cornwall",
-      "country": "ca",
-      "lat": 45.0212,
-      "lng": -74.7306
-    },
-    {
-      "city": "Drummondville",
-      "country": "ca",
-      "lat": 45.8838,
-      "lng": -72.4843
-    },
-    {
-      "city": "Lévis",
-      "country": "ca",
-      "lat": 46.8032,
-      "lng": -71.1779
-    },
-    {
-      "city": "Grand Falls",
-      "country": "ca",
-      "lat": 47.0364,
-      "lng": -67.7402
-    },
-    {
-      "city": "Southern Victoria",
-      "country": "ca",
-      "lat": 46.75,
-      "lng": -67.6
-    },
-    {
-      "city": "Fredericton",
-      "country": "ca",
-      "lat": 45.9636,
-      "lng": -66.6431
-    },
-    {
-      "city": "Moncton",
-      "country": "ca",
-      "lat": 46.0878,
-      "lng": -64.7782
-    },
-    {
-      "city": "Halifax",
-      "country": "ca",
-      "lat": 44.6488,
-      "lng": -63.5752
-    },
-    {
-      "city": "Charlottetown",
-      "country": "ca",
-      "lat": 46.2382,
-      "lng": -63.1311
-    },
-    {
-      "city": "Boston",
-      "country": "us",
-      "lat": 42.3601,
-      "lng": -71.0589
-    },
-    {
-      "city": "Washington, DC",
-      "country": "us",
-      "lat": 38.9072,
-      "lng": -77.0369
-    },
-    {
-      "city": "Buffalo",
-      "country": "us",
-      "lat": 42.8864,
-      "lng": -78.8784
-    },
-    {
-      "city": "Rochester",
-      "country": "us",
-      "lat": 43.1566,
-      "lng": -77.6088
-    },
-    {
-      "city": "Chicago",
-      "country": "us",
-      "lat": 41.8781,
-      "lng": -87.6298
-    },
-    {
-      "city": "Pittsburgh",
-      "country": "us",
-      "lat": 40.4406,
-      "lng": -79.9959
-    },
-    {
-      "city": "Orlando",
-      "country": "us",
-      "lat": 28.5383,
-      "lng": -81.3792
-    },
-    {
-      "city": "Bristol",
-      "country": "us",
-      "lat": 36.5951,
-      "lng": -82.1887
-    }
-  ]
+ "born": "2004-03",
+ "lived": [
+  {
+   "city": "Hamilton",
+   "country": "ca",
+   "from": "2004-03",
+   "to": "2016-08",
+   "lat": 43.2557,
+   "lng": -79.8711,
+   "region": "Ontario"
+  },
+  {
+   "city": "Brantford",
+   "country": "ca",
+   "from": "2016-08",
+   "to": "2026-09",
+   "lat": 43.1394,
+   "lng": -80.2644,
+   "region": "Ontario"
+  },
+  {
+   "city": "Hamilton",
+   "country": "ca",
+   "from": "2026-09",
+   "lat": 43.2557,
+   "lng": -79.8711,
+   "region": "Ontario"
+  }
+ ],
+ "visited": [
+  {
+   "city": "Toronto",
+   "country": "ca",
+   "lat": 43.6532,
+   "lng": -79.3832,
+   "region": "Ontario"
+  },
+  {
+   "city": "Mississauga",
+   "country": "ca",
+   "lat": 43.589,
+   "lng": -79.6441,
+   "region": "Ontario"
+  },
+  {
+   "city": "Brampton",
+   "country": "ca",
+   "lat": 43.7315,
+   "lng": -79.7624,
+   "region": "Ontario"
+  },
+  {
+   "city": "Oakville",
+   "country": "ca",
+   "lat": 43.4675,
+   "lng": -79.6877,
+   "region": "Ontario"
+  },
+  {
+   "city": "Burlington",
+   "country": "ca",
+   "lat": 43.3255,
+   "lng": -79.799,
+   "region": "Ontario"
+  },
+  {
+   "city": "Milton",
+   "country": "ca",
+   "lat": 43.5183,
+   "lng": -79.8774,
+   "region": "Ontario"
+  },
+  {
+   "city": "Georgetown",
+   "country": "ca",
+   "lat": 43.65,
+   "lng": -79.9167,
+   "region": "Ontario"
+  },
+  {
+   "city": "Orangeville",
+   "country": "ca",
+   "lat": 43.92,
+   "lng": -80.0943,
+   "region": "Ontario"
+  },
+  {
+   "city": "Grimsby",
+   "country": "ca",
+   "lat": 43.2,
+   "lng": -79.56,
+   "region": "Ontario"
+  },
+  {
+   "city": "Niagara Falls",
+   "country": "ca",
+   "lat": 43.0896,
+   "lng": -79.0849,
+   "region": "Ontario"
+  },
+  {
+   "city": "St. Catharines",
+   "country": "ca",
+   "lat": 43.1594,
+   "lng": -79.2469,
+   "region": "Ontario"
+  },
+  {
+   "city": "Welland",
+   "country": "ca",
+   "lat": 42.9921,
+   "lng": -79.2482,
+   "region": "Ontario"
+  },
+  {
+   "city": "Niagara-on-the-Lake",
+   "country": "ca",
+   "lat": 43.255,
+   "lng": -79.0717,
+   "region": "Ontario"
+  },
+  {
+   "city": "Fort Erie",
+   "country": "ca",
+   "lat": 42.9049,
+   "lng": -78.9322,
+   "region": "Ontario"
+  },
+  {
+   "city": "Port Colborne",
+   "country": "ca",
+   "lat": 42.8867,
+   "lng": -79.2506,
+   "region": "Ontario"
+  },
+  {
+   "city": "Thorold",
+   "country": "ca",
+   "lat": 43.1167,
+   "lng": -79.2,
+   "region": "Ontario"
+  },
+  {
+   "city": "Cambridge",
+   "country": "ca",
+   "lat": 43.3616,
+   "lng": -80.3144,
+   "region": "Ontario"
+  },
+  {
+   "city": "Kitchener",
+   "country": "ca",
+   "lat": 43.4516,
+   "lng": -80.4925,
+   "region": "Ontario"
+  },
+  {
+   "city": "Waterloo",
+   "country": "ca",
+   "lat": 43.4643,
+   "lng": -80.5204,
+   "region": "Ontario"
+  },
+  {
+   "city": "Guelph",
+   "country": "ca",
+   "lat": 43.5448,
+   "lng": -80.2482,
+   "region": "Ontario"
+  },
+  {
+   "city": "Elora",
+   "country": "ca",
+   "lat": 43.683,
+   "lng": -80.43,
+   "region": "Ontario"
+  },
+  {
+   "city": "Fergus",
+   "country": "ca",
+   "lat": 43.7,
+   "lng": -80.37,
+   "region": "Ontario"
+  },
+  {
+   "city": "Paris",
+   "country": "ca",
+   "lat": 43.1944,
+   "lng": -80.3844,
+   "region": "Ontario"
+  },
+  {
+   "city": "Woodstock",
+   "country": "ca",
+   "lat": 43.1315,
+   "lng": -80.7467,
+   "region": "Ontario"
+  },
+  {
+   "city": "Simcoe",
+   "country": "ca",
+   "lat": 42.8369,
+   "lng": -80.3039,
+   "region": "Ontario"
+  },
+  {
+   "city": "Port Dover",
+   "country": "ca",
+   "lat": 42.7867,
+   "lng": -80.2015,
+   "region": "Ontario"
+  },
+  {
+   "city": "Tillsonburg",
+   "country": "ca",
+   "lat": 42.859,
+   "lng": -80.728,
+   "region": "Ontario"
+  },
+  {
+   "city": "London",
+   "country": "ca",
+   "lat": 42.9849,
+   "lng": -81.2453,
+   "region": "Ontario"
+  },
+  {
+   "city": "St. Thomas",
+   "country": "ca",
+   "lat": 42.7778,
+   "lng": -81.183,
+   "region": "Ontario"
+  },
+  {
+   "city": "Windsor",
+   "country": "ca",
+   "lat": 42.3149,
+   "lng": -83.0364,
+   "region": "Ontario"
+  },
+  {
+   "city": "Chatham",
+   "country": "ca",
+   "lat": 42.4048,
+   "lng": -82.191,
+   "region": "Ontario"
+  },
+  {
+   "city": "Grand Bend",
+   "country": "ca",
+   "lat": 43.3114,
+   "lng": -81.7544,
+   "region": "Ontario"
+  },
+  {
+   "city": "Barrie",
+   "country": "ca",
+   "lat": 44.3894,
+   "lng": -79.6903,
+   "region": "Ontario"
+  },
+  {
+   "city": "Orillia",
+   "country": "ca",
+   "lat": 44.6082,
+   "lng": -79.4199,
+   "region": "Ontario"
+  },
+  {
+   "city": "Newmarket",
+   "country": "ca",
+   "lat": 44.0592,
+   "lng": -79.4613,
+   "region": "Ontario"
+  },
+  {
+   "city": "Richmond Hill",
+   "country": "ca",
+   "lat": 43.8828,
+   "lng": -79.4403,
+   "region": "Ontario"
+  },
+  {
+   "city": "Markham",
+   "country": "ca",
+   "lat": 43.8561,
+   "lng": -79.337,
+   "region": "Ontario"
+  },
+  {
+   "city": "Vaughan",
+   "country": "ca",
+   "lat": 43.8361,
+   "lng": -79.4983,
+   "region": "Ontario"
+  },
+  {
+   "city": "Pickering",
+   "country": "ca",
+   "lat": 43.8384,
+   "lng": -79.0868,
+   "region": "Ontario"
+  },
+  {
+   "city": "Ajax",
+   "country": "ca",
+   "lat": 43.8509,
+   "lng": -79.0204,
+   "region": "Ontario"
+  },
+  {
+   "city": "Whitby",
+   "country": "ca",
+   "lat": 43.8975,
+   "lng": -78.9429,
+   "region": "Ontario"
+  },
+  {
+   "city": "Oshawa",
+   "country": "ca",
+   "lat": 43.8971,
+   "lng": -78.8658,
+   "region": "Ontario"
+  },
+  {
+   "city": "Bowmanville",
+   "country": "ca",
+   "lat": 43.9128,
+   "lng": -78.6877,
+   "region": "Ontario"
+  },
+  {
+   "city": "Port Hope",
+   "country": "ca",
+   "lat": 43.9511,
+   "lng": -78.2927,
+   "region": "Ontario"
+  },
+  {
+   "city": "Cobourg",
+   "country": "ca",
+   "lat": 43.9593,
+   "lng": -78.1677,
+   "region": "Ontario"
+  },
+  {
+   "city": "Peterborough",
+   "country": "ca",
+   "lat": 44.3091,
+   "lng": -78.3197,
+   "region": "Ontario"
+  },
+  {
+   "city": "Belleville",
+   "country": "ca",
+   "lat": 44.1628,
+   "lng": -77.3832,
+   "region": "Ontario"
+  },
+  {
+   "city": "Trenton",
+   "country": "ca",
+   "lat": 44.1,
+   "lng": -77.5833,
+   "region": "Ontario"
+  },
+  {
+   "city": "Kingston",
+   "country": "ca",
+   "lat": 44.2312,
+   "lng": -76.486,
+   "region": "Ontario"
+  },
+  {
+   "city": "Brockville",
+   "country": "ca",
+   "lat": 44.5895,
+   "lng": -75.6843,
+   "region": "Ontario"
+  },
+  {
+   "city": "Cornwall",
+   "country": "ca",
+   "lat": 45.0212,
+   "lng": -74.7306,
+   "region": "Ontario"
+  },
+  {
+   "city": "Drummondville",
+   "country": "ca",
+   "lat": 45.8838,
+   "lng": -72.4843,
+   "region": "Quebec"
+  },
+  {
+   "city": "Lévis",
+   "country": "ca",
+   "lat": 46.8032,
+   "lng": -71.1779,
+   "region": "Quebec"
+  },
+  {
+   "city": "Grand Falls",
+   "country": "ca",
+   "lat": 47.0364,
+   "lng": -67.7402,
+   "region": "New Brunswick"
+  },
+  {
+   "city": "Southern Victoria",
+   "country": "ca",
+   "lat": 46.75,
+   "lng": -67.6,
+   "region": "New Brunswick"
+  },
+  {
+   "city": "Fredericton",
+   "country": "ca",
+   "lat": 45.9636,
+   "lng": -66.6431,
+   "region": "New Brunswick"
+  },
+  {
+   "city": "Moncton",
+   "country": "ca",
+   "lat": 46.0878,
+   "lng": -64.7782,
+   "region": "New Brunswick"
+  },
+  {
+   "city": "Halifax",
+   "country": "ca",
+   "lat": 44.6488,
+   "lng": -63.5752,
+   "region": "Nova Scotia"
+  },
+  {
+   "city": "Charlottetown",
+   "country": "ca",
+   "lat": 46.2382,
+   "lng": -63.1311,
+   "region": "Prince Edward Island"
+  },
+  {
+   "city": "Boston",
+   "country": "us",
+   "lat": 42.3601,
+   "lng": -71.0589,
+   "region": "Massachusetts"
+  },
+  {
+   "city": "Washington, DC",
+   "country": "us",
+   "lat": 38.9072,
+   "lng": -77.0369,
+   "region": "District of Columbia"
+  },
+  {
+   "city": "Buffalo",
+   "country": "us",
+   "lat": 42.8864,
+   "lng": -78.8784,
+   "region": "New York"
+  },
+  {
+   "city": "Rochester",
+   "country": "us",
+   "lat": 43.1566,
+   "lng": -77.6088,
+   "region": "New York"
+  },
+  {
+   "city": "Chicago",
+   "country": "us",
+   "lat": 41.8781,
+   "lng": -87.6298,
+   "region": "Illinois"
+  },
+  {
+   "city": "Pittsburgh",
+   "country": "us",
+   "lat": 40.4406,
+   "lng": -79.9959,
+   "region": "Pennsylvania"
+  },
+  {
+   "city": "Orlando",
+   "country": "us",
+   "lat": 28.5383,
+   "lng": -81.3792,
+   "region": "Florida"
+  },
+  {
+   "city": "Bristol",
+   "country": "us",
+   "lat": 36.5951,
+   "lng": -82.1887,
+   "region": "Tennessee"
+  }
+ ]
 }
