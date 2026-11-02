@@ -54,7 +54,6 @@ const elsewhere = [
     {media.length > 0 && (
       <a class="glass win wide" href="/media">
         <div class="win-head"><div class="icon"><Icon name="media" /></div><h3>Media Journal</h3><span class="count">{media.length} logged</span></div>
-        <p class="desc">Everything I listen to, watch, and read, rated and reviewed. My own Letterboxd for everything.</p>
         <div class="shelves">
           {shelves.map(({ type, item }) => (
             <div class="shelf">
@@ -77,7 +76,6 @@ const elsewhere = [
     {notes.length > 0 && (
       <a class="glass win" href="/notes">
         <div class="win-head"><div class="icon"><Icon name="notes" /></div><h3>Notes</h3><span class="count">{plural(notes.length, 'note')}</span></div>
-        <p class="desc">Short thoughts, half-ideas, and stuff I don't want to forget.</p>
         <ul class="peek">
           {notes.slice(0, 2).map((n) => <li><span class="clamp">{noteText(n.body)}</span><time>{fmtDate(n.data.date)}</time></li>)}
         </ul>
@@ -88,7 +86,6 @@ const elsewhere = [
     {writing.length > 0 && (
       <a class="glass win" href="/writing">
         <div class="win-head"><div class="icon"><Icon name="writing" /></div><h3>Writing</h3><span class="count">{plural(writing.length, 'post')}</span></div>
-        <p class="desc">Longer pieces on politics, Hamilton, and whatever I'm stuck on.</p>
         <ul class="peek">
           {writing.slice(0, 2).map((p) => <li><span>{p.data.title}</span><time>{fmtDate(p.data.date)}</time></li>)}
         </ul>
@@ -99,7 +96,6 @@ const elsewhere = [
     {photos.length > 0 && (
       <a class="glass win wide" href="/photos">
         <div class="win-head"><div class="icon"><Icon name="photos" /></div><h3>Photos</h3><span class="count">{plural(photos.length, 'photo')}</span></div>
-        <p class="desc">Mostly Hamilton. Sometimes not.</p>
         <div class="thumbs">
           {photos.slice(0, 4).map((p) => <img src={p.data.image} alt={p.data.caption ?? ''} loading="lazy" />)}
         </div>
@@ -110,7 +106,6 @@ const elsewhere = [
     {lived.months.length > 0 && (
       <a class="glass win wide" href="/places">
         <div class="win-head"><div class="icon"><Icon name="places" /></div><h3>Places</h3><span class="count">{visited.all.length} places · {visited.countries.length} {visited.countries.length === 1 ? 'country' : 'countries'}</span></div>
-        <p class="desc">Where I've lived, where I've been, and how I got there. Each square is a month.</p>
         <div class="mini-months" aria-hidden="true">
           {lived.months.map((mo) => <span style={mo.colour ? `--c:${mo.colour}` : undefined}></span>)}
         </div>
@@ -122,7 +117,6 @@ const elsewhere = [
     {linkList.length > 0 && (
       <a class="glass win" href="/links">
         <div class="win-head"><div class="icon"><Icon name="links" /></div><h3>Links</h3><span class="count">{plural(linkList.length, 'link')}</span></div>
-        <p class="desc">Interesting things I found around the web.</p>
         <ul class="peek">
           {linkList.slice(0, 2).map((l) => <li><span class="clamp">{l.title}</span><time>{fmtDate(new Date(l.date + 'T00:00:00Z'))}</time></li>)}
         </ul>
@@ -133,7 +127,6 @@ const elsewhere = [
     {uses.length > 0 && (
       <a class="glass win" href="/uses">
         <div class="win-head"><div class="icon"><Icon name="uses" /></div><h3>Uses</h3></div>
-        <p class="desc">The stuff I use every day: {uses.map((s) => s.section.toLowerCase()).join(', ')}.</p>
         <div class="use-tags">{uses.flatMap((s) => s.items).slice(0, 5).map((i) => <span class="chip">{i.name}</span>)}</div>
         <span class="open">See the list →</span>
       </a>
@@ -141,7 +134,6 @@ const elsewhere = [
 
     <a class="glass win" href="/cv">
       <div class="win-head"><div class="icon"><Icon name="cv" /></div><h3>CV</h3>{!cvReady && <span class="chip soon">soon</span>}</div>
-      <p class="desc">School, work, and the things I've been part of.</p>
       <span class="open">View CV →</span>
     </a>
 
@@ -183,12 +175,11 @@ const elsewhere = [
   .win{display:flex;flex-direction:column;padding:22px 24px 20px;transition:transform .25s,box-shadow .25s}
   a.win:hover{transform:translateY(-3px);box-shadow:inset 0 1px 0 rgba(255,255,255,.45),0 28px 60px -22px rgba(8,2,30,.75)}
   .win.wide{grid-column:span 2}
-  .win-head{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+  .win-head{display:flex;align-items:center;gap:12px;margin-bottom:18px}
   .icon{width:38px;height:38px;border-radius:11px;display:grid;place-items:center;background:rgba(255,255,255,.12);border:1px solid var(--edge)}
   h3{font-family:"Kanit",sans-serif;font-weight:400;font-size:21px;margin:0;letter-spacing:.01em}
   .count{margin-left:auto;font-family:"Radio Canada",sans-serif;font-size:12.5px;color:var(--faint)}
   .soon{margin-left:auto}
-  .desc{margin:0 0 16px;color:var(--soft);font-size:15.5px}
 
   .peek{list-style:none;margin:0 0 18px;padding:0;border-top:1px solid rgba(255,255,255,.1)}
   .peek li{display:flex;justify-content:space-between;gap:14px;padding:9px 0;border-bottom:1px solid rgba(255,255,255,.08);font-size:15px}
