@@ -2,13 +2,27 @@
 import Base from '../../layouts/Base.astro';
 import { getWriting, fmtDate } from '../../lib/util';
 const posts = await getWriting();
+const counts = new Map<string, number>();
+for (const p of posts) for (const t of p.data.tags) counts.set(t, (counts.get(t) ?? 0) + 1);
+const tags = [...counts.entries()].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]));
+const sub = "Long form blog post and also course work I'm proud of (got a 95+ on)";
 ---
-<Base title="Writing" current="writing" description="Longer pieces on politics, Hamilton, and whatever else.">
+<Base title="Writing" current="writing" description={sub}>
   <h1 class="page-h">Writing</h1>
-  <p class="page-sub">Longer pieces on politics, Hamilton, and whatever I'm stuck on.</p>
+  <p class="page-sub">{sub}</p>
+  <div class="layout">
+  {tags.length > 0 && (
+    <nav class="glass tagnav" aria-label="Filter by tag">
+      <span class="lbl">Tags</span>
+      <ul>
+        <li><button type="button" data-tag="" class="on">All <span class="n">{posts.length}</span></button></li>
+        {tags.map(([t, n]) => <li><button type="button" data-tag={t}>{t} <span class="n">{n}</span></button></li>)}
+      </ul>
+    </nav>
+  )}
   <ul class="glass list">
     {posts.map((p) => (
-      <li>
+      <li data-tags={JSON.stringify(p.data.tags)}>
         <a href={`/writing/${p.id}`}>
           <span class="t">{p.data.title}</span>
           {p.data.description && <span class="d">{p.data.description}</span>}
@@ -16,9 +30,46 @@ const posts = await getWriting();
         <span class="side">{p.data.tags.map((t) => <span class="chip">{t}</span>)}<time datetime={p.data.date.toISOString()}>{fmtDate(p.data.date)}</time></span>
       </li>
     ))}
+    <li class="none" hidden>Nothing with that tag yet.</li>
   </ul>
+  </div>
 </Base>
+<script>
+  const btns = [...document.querySelectorAll<HTMLButtonElement>('.tagnav button')];
+  const items = [...document.querySelectorAll<HTMLLIElement>('.list li[data-tags]')];
+  const none = document.querySelector<HTMLLIElement>('.list .none');
+  function apply(tag: string) {
+    let shown = 0;
+    items.forEach((li) => {
+      const ok = !tag || (JSON.parse(li.dataset.tags || '[]') as string[]).includes(tag);
+      li.hidden = !ok;
+      if (ok) shown++;
+    });
+    if (none) none.hidden = shown > 0;
+    btns.forEach((b) => b.classList.toggle('on', (b.dataset.tag || '') === tag));
+  }
+  btns.forEach((b) => b.addEventListener('click', () => {
+    const tag = b.dataset.tag || '';
+    history.replaceState(null, '', tag ? '#' + encodeURIComponent(tag) : location.pathname);
+    apply(tag);
+  }));
+  const initial = decodeURIComponent(location.hash.slice(1));
+  if (initial && btns.some((b) => b.dataset.tag === initial)) apply(initial);
+</script>
 <style>
+  .layout{display:grid;grid-template-columns:200px minmax(0,1fr);gap:20px;align-items:start}
+  .layout:not(:has(.tagnav)){grid-template-columns:minmax(0,1fr)}
+  .tagnav{position:sticky;top:96px;padding:18px 14px}
+  .tagnav .lbl{display:block;font-family:"Kanit",sans-serif;font-weight:300;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin:0 8px 8px}
+  .tagnav ul{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:2px}
+  .tagnav li{display:block;padding:0;border:0}
+  .tagnav button{all:unset;box-sizing:border-box;cursor:pointer;width:100%;display:flex;justify-content:space-between;gap:10px;padding:7px 10px;border-radius:12px;font-family:"Radio Canada",sans-serif;font-size:14.5px;color:var(--soft);transition:background .2s,color .2s}
+  .tagnav button:hover{color:var(--ink);background:rgba(255,255,255,.07)}
+  .tagnav button.on{color:var(--ink);background:rgba(255,255,255,.16);box-shadow:inset 0 1px 0 rgba(255,255,255,.25)}
+  .tagnav button:focus-visible{outline:2px solid rgba(255,255,255,.5);outline-offset:1px}
+  .tagnav .n{color:var(--faint);font-size:12px}
+  .none{color:var(--soft);display:block}
+  li[hidden]{display:none}
   .list{list-style:none;margin:0;padding:8px 28px}
   li{display:flex;justify-content:space-between;align-items:baseline;gap:18px;padding:16px 0;border-bottom:1px solid rgba(255,255,255,.08)}
   li:last-child{border-bottom:0}
@@ -27,5 +78,12 @@ const posts = await getWriting();
   li a:hover .t{color:#fff;text-decoration:underline;text-decoration-color:rgba(255,255,255,.4);text-underline-offset:4px}
   .d{display:block;color:var(--soft);font-size:15px;margin-top:2px}
   .side{display:flex;gap:8px;align-items:center;flex:none}
-  @media (max-width:600px){li{flex-direction:column;gap:6px}}
+  @media (max-width:760px){
+    .layout{grid-template-columns:1fr}
+    .tagnav{position:static;padding:12px}
+    .tagnav ul{flex-direction:row;overflow-x:auto;gap:6px}
+    .tagnav button{white-space:nowrap;width:auto}
+    .tagnav .lbl{display:none}
+  }
+  @media (max-width:600px){.list li{flex-direction:column;gap:6px}}
 </style>

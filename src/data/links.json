@@ -1,4 +1,5 @@
 [
-  { "title": "Placeholder link — something interesting", "url": "https://example.com/", "date": "2026-10-26", "note": "Optional one-liner about why it's good." },
-  { "title": "Another placeholder link", "url": "https://www.wikipedia.org/", "date": "2026-10-20" }
+  { "title": "Archive of Letters", "url": "https://archiveofletters.com/", "date": "2026-11-08", "note": "Thousands of real letters, from ancient Egypt to the 19th century. Pliny describing Vesuvius is a good place to start." },
+  { "title": "Radio Garden: Maple Music Cafe", "url": "https://radio.garden/listen/maple-music-cafe/dqrQ0XUV", "date": "2026-11-08", "note": "Spin the globe and listen to live radio from anywhere. This one is a Toronto station." },
+  { "title": "Marginalia Search", "url": "https://marginalia-search.com/", "date": "2026-11-08", "note": "A search engine that favours small, non-commercial, weird old corners of the web." }
 ]
