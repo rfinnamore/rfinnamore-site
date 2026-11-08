@@ -80,6 +80,17 @@ time{font-family:"Radio Canada",sans-serif;font-size:12.5px;color:var(--faint);w
 .prose hr{border:0;border-top:1px solid var(--edge);margin:2em 0}
 .prose code{font-size:.9em;background:rgba(255,255,255,.1);padding:1px 6px;border-radius:6px}
 .prose ul,.prose ol{padding-left:1.3em}
+.prose sup{line-height:0;font-size:.7em}
+.prose sup a[data-footnote-ref]{border:0;padding:0 1px;color:var(--ink);font-family:"Radio Canada",sans-serif}
+.prose sup a[data-footnote-ref]:hover{text-decoration:underline}
+.prose section[data-footnotes]{margin-top:2.6em;padding-top:1.2em;border-top:1px solid var(--edge);font-size:15px;line-height:1.55;color:var(--soft)}
+.prose section[data-footnotes] h2{position:static;width:auto;height:auto;clip:auto;overflow:visible;margin:0 0 .6em;font-family:"Kanit",sans-serif;font-weight:300;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+.prose section[data-footnotes] ol{padding-left:1.6em;margin:0}
+.prose section[data-footnotes] li{margin:.45em 0;padding-left:.2em;word-break:break-word}
+.prose section[data-footnotes] li p{margin:0;display:inline}
+.prose section[data-footnotes] li:target{background:rgba(255,255,255,.08);border-radius:8px}
+.prose section[data-footnotes] a[data-footnote-backref]{border:0;margin-left:.4em}
+.prose h2#bibliography ~ p{padding-left:2em;text-indent:-2em;font-size:16px;line-height:1.55;margin:.7em 0;word-break:break-word}
 
 footer.foot{margin-top:44px;display:flex;justify-content:space-between;font-family:"Radio Canada",sans-serif;font-size:13px;color:var(--faint);padding:0 6px}
 

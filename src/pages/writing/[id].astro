@@ -15,7 +15,8 @@ const d = entry.data;
     <span class="kicker"><time datetime={d.date.toISOString()}>{fmtDate(d.date, true)}</time></span>
     <h1 class="page-h">{d.title}</h1>
     {d.description && <p class="page-sub">{d.description}</p>}
-    {d.tags.length > 0 && <div class="tags">{d.tags.map((t) => <span class="chip">{t}</span>)}</div>}
+    {d.tags.length > 0 && <div class="tags">{d.tags.map((t) => <a class="chip" href={`/writing/#${encodeURIComponent(t)}`}>{t}</a>)}</div>}
+    {d.download && <a class="dl" href={d.download} download>Download PDF <span aria-hidden="true">↓</span></a>}
   </header>
   <article class="glass prose"><Content /></article>
   <p class="back"><a href="/writing">← all writing</a></p>
@@ -23,7 +24,10 @@ const d = entry.data;
 <style>
   .head{margin:48px 0 22px;max-width:760px}
   .head .page-h{margin-top:6px}
-  .tags{display:flex;gap:6px;margin-top:-12px}
+  .tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:-12px}
+  .tags a.chip:hover{color:var(--ink);border-color:rgba(255,255,255,.4)}
+  .dl{display:inline-flex;align-items:center;gap:8px;margin-top:16px;padding:8px 16px;border-radius:999px;border:1px solid var(--edge);background:rgba(255,255,255,.08);font-family:"Radio Canada",sans-serif;font-size:14px;color:var(--ink);transition:background .2s}
+  .dl:hover{background:rgba(255,255,255,.18)}
   .prose{max-width:760px}
   .back{font-family:"Kanit",sans-serif;font-weight:300;color:var(--soft);margin:22px 6px 0}
   .back a:hover{color:var(--ink)}

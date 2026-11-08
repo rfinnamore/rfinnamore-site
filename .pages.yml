@@ -45,6 +45,7 @@ content:
       - { name: date, label: Date, type: date, required: true }
       - { name: description, label: One-line summary, type: string }
       - { name: tags, label: Tags, type: string, list: true }
+      - { name: download, label: "PDF download (optional)", type: file }
       - { name: draft, label: Draft (hidden from site), type: boolean, default: false }
       - { name: body, label: Post, type: rich-text }
 
