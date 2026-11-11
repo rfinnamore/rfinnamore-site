@@ -57,7 +57,7 @@ const pages = defineCollection({
 
 const quotes = defineCollection({
   loader: file('./src/data/quotes.json', { parser: (text) => JSON.parse(text).map((q: any, i: number) => ({ id: String(i), ...q })) }),
-  schema: z.object({ text: z.string(), by: z.string().optional() }),
+  schema: z.object({ text: z.string(), by: z.string().optional(), url: z.string().optional() }),
 });
 
 export const collections = { notes, writing, photos, media, pages, quotes };

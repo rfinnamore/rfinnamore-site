@@ -87,6 +87,7 @@ content:
     fields:
       - { name: text, label: Quote, type: text, required: true }
       - { name: by, label: Who said it, type: string }
+      - { name: url, label: Link on the name (optional), type: string }
 
   - name: site
     label: Home page & links

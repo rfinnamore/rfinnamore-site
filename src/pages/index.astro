@@ -152,7 +152,8 @@ const elsewhere = [
   const data = JSON.parse(document.getElementById('q-data')?.textContent || '[]');
   const t = document.getElementById('q-text'), b = document.getElementById('q-by');
   let i = Math.floor(Math.random() * data.length);
-  const show = () => { if (!data.length || !t || !b) return; t.textContent = `“${data[i].text}”`; b.textContent = data[i].by ? `— ${data[i].by}` : ''; };
+  const show = () => { if (!data.length || !t || !b) return; t.textContent = `“${data[i].text}”`; b.textContent = '';
+    if (data[i].by) { if (data[i].url) { b.append('— '); const a = document.createElement('a'); a.href = data[i].url; a.target = '_blank'; a.rel = 'noopener'; a.textContent = data[i].by; b.append(a); } else b.textContent = `— ${data[i].by}`; } };
   show();
   document.getElementById('q-next')?.addEventListener('click', () => { i = (i + 1 + Math.floor(Math.random() * (data.length - 1))) % data.length; show(); });
 </script>
@@ -199,6 +200,8 @@ const elsewhere = [
 
   blockquote{margin:4px 0 18px;padding-top:12px;border-top:1px solid rgba(255,255,255,.1)}
   blockquote p{margin:0;font-style:italic;color:var(--soft);font-size:16px}
+  blockquote cite a{color:inherit;text-decoration:underline;text-underline-offset:3px;text-decoration-color:rgba(255,255,255,.3)}
+  blockquote cite a:hover{color:var(--ink)}
   blockquote cite{display:block;margin-top:6px;font-style:normal;font-family:"Radio Canada",sans-serif;font-size:13px;color:var(--faint)}
 
   .mini-months{display:grid;grid-template-columns:repeat(auto-fill,minmax(7px,1fr));gap:2px;margin-bottom:12px}
